@@ -1,0 +1,11 @@
+:root{
+    /*colors */
+    --color-text:#ffffff;
+    --color-primary:black;
+    --color-secondary:white;
+    --color-dark:purple;
+    --color-bg:tan;
+
+    /*fonts*/
+    font-family: 'Bungee Shade', system-ui;
+}
