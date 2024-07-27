@@ -1,13 +1,14 @@
-
-import {Main} from './components/main/main';
+import styles from "../src/App.module.css";
+import { Contact } from "./components/ContactUs/ContactUs";
+import { Navbar } from "./components/Navbar/Navbar";
 
 function App() {
-  return(
-     <div>
- <Main/>
-   </div>
+  return (
+    <div className={styles.App}>
+      <Navbar />
+      <Contact />
+    </div>
   );
 }
 
 export default App;
-

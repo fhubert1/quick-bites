@@ -1,8 +1,11 @@
 import React from "react";
+import styles from "./main.module.css";
 export const Main = () => {
     return (
-        <nav>
+        <section>
+<div>
 
-        </nav>
+</div>
+</section>
     );
 };
