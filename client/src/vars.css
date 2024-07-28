@@ -1,10 +1,10 @@
 :root{
     /*colors */
-    --color-text:#ffffff;
+    --color-text:black;
     --color-primary:black;
     --color-secondary:white;
-    --color-dark:purple;
-    --color-bg:tan;
+    --color-dark:#b47e11;
+    --color-bg:rgba(217, 192, 159, 0.914);
 
     /*fonts*/
     font-family: 'Bungee Shade', system-ui;
