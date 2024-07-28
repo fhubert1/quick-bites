@@ -1,6 +1,10 @@
 import styles from "../src/App.module.css";
+<<<<<<< HEAD
+=======
 import { Contact } from './components/ContactUs/ContactUs';
+>>>>>>> main
 import { Navbar } from "./components/Navbar/Navbar";
+import {Contact} from './components/ContactUs/ContactUs'
 
 
 function App() {
