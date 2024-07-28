@@ -1,7 +1,7 @@
 // src/components/Login.js
 import React from 'react';
 
-const Login = ({ formData, handleChange, errors }) => (
+export const Login = ({ formData, handleChange, errors }) => (
   <>
     <div className="formGroup">
       <label htmlFor="email">Email</label>
@@ -13,7 +13,7 @@ const Login = ({ formData, handleChange, errors }) => (
         onChange={handleChange}
         className={`formInput ${errors.email ? 'inputError' : ''}`}
       />
-      {errors.email && <span className="error">{errors.email}</span>}
+      {errors.email && <p className="error">{errors.email}</p>}
     </div>
     <div className="formGroup">
       <label htmlFor="password">Password</label>
@@ -31,3 +31,48 @@ const Login = ({ formData, handleChange, errors }) => (
 );
 
 export default Login;
+
+// import React from 'react';
+
+// const defaultFormData = {
+//   email: '',
+//   password: ''
+// };
+
+// const defaultErrors = {
+//   email: '',
+//   password: ''
+// };
+
+// const defaultHandleChange = () => {};
+
+// export const Login = ({ formData = defaultFormData, handleChange = defaultHandleChange, errors = defaultErrors }) => (
+//   <>
+//     <div className="formGroup">
+//       <label htmlFor="email">Email</label>
+//       <input
+//         type="email"
+//         id="your email"
+//         name="email name"
+//         value={formData.email}
+//         onChange={handleChange}
+//         className={`formInput ${errors.email ? 'inputError' : ''}`}
+//       />
+//       {errors.email && <p className="error">{errors.email}</p>}
+//     </div>
+//     <div className="formGroup">
+//       <label htmlFor="password">Password</label>
+//       <input
+//         type="your password"
+//         id="password"
+//         name="password name"
+//         value={formData.password}
+//         onChange={handleChange}
+//         className={`formInput ${errors.password ? 'inputError' : ''}`}
+//       />
+//       {errors.password && <p className="error">{errors.password}</p>}
+//     </div>
+//   </>
+// );
+
+// export default Login;
