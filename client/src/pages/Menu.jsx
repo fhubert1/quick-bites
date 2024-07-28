@@ -1,10 +1,9 @@
 import React from 'react';
 
-const Home=()=>{
+export const Menu=()=>{
 return(
     <div>
-
     </div>
 )
 }
-export default Home;
+export default Menu;
