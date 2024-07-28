@@ -1,25 +1,43 @@
+import React from "react";
 import styles from "../src/App.module.css";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { Navbar } from "./components/Navbar/Navbar";
-import { Menu } from "./pages/Menu";
-import Contact from "./pages/Contact";
-import SignupForm from "./pages/Signup";
-import LoginForm from "./pages/Login";
-import Home from "./pages/Home";
+import Navbar from "./components/Navbar/Navbar";
+import { Outlet } from "react-router-dom"
+import { 
+  ApolloProvider,
+  InMemoryCache,
+  ApolloClient,
+  createHttpLink,
+} from "@apollo/client";
+import { setContext } from '@apollo/client/link/context';
+
+const httpLink = createHttpLink({
+  uri: '/graphql',
+});
+
+
+
+const authLink = setContext((_, { headers }) => {
+  const token = localStorage.getItem('id_token');
+  return {
+    headers: {
+      ...headers,
+      authorization: token ? `Bearer ${token}` : '',
+    },
+  };
+});
+
+const client = new ApolloClient({
+  link: authLink.concat(httpLink),
+  cache: new InMemoryCache(),
+});
 
 function App() {
   return (
     <div className={styles.App}>
-      <Router>
-        <Navbar />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/menu" element={<Menu />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/signup" element={<SignupForm />} />
-          <Route path="/login" element={<LoginForm />} />
-        </Routes>
-      </Router>
+     <ApolloProvider client={client}>
+      <Navbar />
+      <Outlet />
+     </ApolloProvider>
     </div>
   );
 }
