@@ -1,0 +1,90 @@
+/* src/styles/Auth.css */
+
+.authContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f4f4f4;
+  }
+  
+  .authForm {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    max-width: 400px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  .formGroup {
+    margin-bottom: 16px;
+  }
+  
+  .formGroup label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .formGroup .formInput {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 16px;
+    color: #333;
+  }
+  
+  .formGroup .inputError {
+    border-color: #e74c3c;
+  }
+  
+  .error {
+    color: #e74c3c;
+    font-size: 14px;
+    margin-top: 4px;
+  }
+  
+  .formButton {
+    background-color: #3498db;
+    color: #fff;
+    padding: 12px 16px;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    width: 100%;
+    box-sizing: border-box;
+    transition: background-color 0.3s;
+  }
+  
+  .formButton:hover {
+    background-color: #2980b9;
+  }
+  
+  .formSwitchButton {
+    background: none;
+    border: none;
+    color: #3498db;
+    font-size: 14px;
+    cursor: pointer;
+    margin-top: 12px;
+    display: block;
+    width: 100%;
+    text-align: center;
+  }
+  
+  .formSwitchButton:hover {
+    text-decoration: underline;
+  }
+  
+  .successMessage {
+    color: #2ecc71;
+    font-size: 16px;
+    text-align: center;
+  }
+  
