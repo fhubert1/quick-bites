@@ -1,17 +1,25 @@
 import styles from "../src/App.module.css";
-<<<<<<< HEAD
-=======
-import { Contact } from './components/ContactUs/ContactUs';
->>>>>>> main
+import { BrowserRouter as Router,Routes, Route, } from 'react-router-dom';
 import { Navbar } from "./components/Navbar/Navbar";
-import {Contact} from './components/ContactUs/ContactUs'
+import {Menu} from "./pages/Menu";
+import Contact from "./pages/Contact";
+import SignupForm from "./pages/Signup";
+import LoginForm from "./pages/Login";
+
 
 
 function App() {
   return (
     <div className={styles.App}>
+      <Router>
       <Navbar />
-      <Contact />
+      <Routes>
+      <Route path="/menu" element={<Menu/>}/>
+      <Route path="/contact" element={<Contact/>}/>
+      <Route path="/signup" element={<SignupForm/>}/>
+      <Route path="/login" element={<LoginForm/>}/>
+      </Routes>
+      </Router>
     </div>
   );
 }
