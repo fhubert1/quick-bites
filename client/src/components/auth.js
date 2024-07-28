@@ -1,8 +1,7 @@
-// src/components/Auth.js
+
 import React, { useState } from 'react';
-import Login from './Login';
-import Signup from './Signup';
-import './Auth.css'; // Ensure your styles are correctly applied
+import Signup from './Signup'; // Adjust the path as necessary
+import '../assets/styles/auth.css'; // Adjust the path as necessary
 
 const Auth = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -27,7 +26,7 @@ const Auth = () => {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
 
@@ -67,20 +66,16 @@ const Auth = () => {
           {isLogin ? 'Login successful!' : 'Signup successful!'}
         </div>
       ) : (
-        <form className="authForm" onSubmit={handleSubmit}>
-          {isLogin ? (
-            <Login formData={formData} handleChange={handleChange} errors={errors} />
-          ) : (
-            <Signup formData={formData} handleChange={handleChange} errors={errors} />
-          )}
-          <button type="submit" className="formButton">
-            {isLogin ? 'Login' : 'Sign Up'}
-          </button>
-          <button type="button" onClick={switchForm} className="formSwitchButton">
-            {isLogin ? 'Create an account' : 'Already have an account? Login'}
-          </button>
-        </form>
+        <Signup
+          formData={formData}
+          handleChange={handleChange}
+          handleSubmit={handleSubmit}
+          errors={errors}
+        />
       )}
+      <button type="button" onClick={switchForm} className="formSwitchButton">
+        {isLogin ? 'Create an account' : 'Already have an account? Login'}
+      </button>
     </div>
   );
 };

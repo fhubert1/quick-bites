@@ -1,13 +1,15 @@
-
-.contactFormContainer {
+/* Container for the signup form */
+.authContainer {
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 20px;
     background-color: #f9f9f9;
+    height:0%;
   }
   
-  .contactForm {
+  /* Signup form styling */
+  .authForm {
     width: 100%;
     max-width: 500px;
     background: #fff;
@@ -16,16 +18,19 @@
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   }
   
+  /* Form group styling */
   .formGroup {
     margin-bottom: 15px;
   }
   
+  /* Label styling */
   .formGroup label {
     display: block;
     margin-bottom: 5px;
     font-weight: bold;
   }
   
+  /* Input field styling */
   .formInput {
     width: 100%;
     padding: 10px;
@@ -34,12 +39,14 @@
     box-sizing: border-box;
   }
   
+  /* Focus state for input fields */
   .formInput:focus {
     border-color: #007BFF;
     outline: none;
     box-shadow: 0 0 5px rgba(0, 123, 255, 0.25);
   }
   
+  /* Submit button styling */
   .formButton {
     width: 100%;
     padding: 10px;
@@ -51,15 +58,19 @@
     font-size: 16px;
   }
   
+  /* Hover state for submit button */
   .formButton:hover {
     background-color: #0056b3;
   }
   
+  /* Error message styling */
   .error {
     color: red;
     font-size: 12px;
   }
   
+  /* Error state for input fields */
   .inputError {
     border-color: red;
   }
+  

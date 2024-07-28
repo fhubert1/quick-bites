@@ -1,0 +1,14 @@
+
+.homepage {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Full viewport height */
+    background-color: #f0f0f0; /* Light background color */
+  }
+  
+  .centeredGif {
+    max-width: 100%; /* Make sure GIF doesn't overflow */
+    height: auto; /* Maintain aspect ratio */
+  }
+  
