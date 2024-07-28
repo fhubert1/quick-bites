@@ -9,6 +9,11 @@ import {Link} from 'react-router-dom';
         <nav>
           <ul className={styles.nav}>
             <li>
+                <Link to='/' >
+                Home
+                </Link>
+            </li>
+            <li>
                <Link to="/menu" className={styles.navlink}>
                 Menu
                 </Link>
