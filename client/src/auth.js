@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import Signup from './Signup'; // Adjust the path as necessary
+import Signup from './pages/Signup'; // Adjust the path as necessary
 import '../assets/styles/auth.css'; // Adjust the path as necessary
 
 const Auth = () => {
