@@ -7,7 +7,7 @@ import Auth from '../../utils/auth';
 
 const Login = () => {
   const [formData, setFormData] = useState({
-    email: '',
+    userName: '',
     password: ''
   });
   const [ login, {error, data }] = useMutation(LOGIN_USER);
@@ -38,7 +38,7 @@ const Login = () => {
 
   //Clear form
   setFormData({
-    email: '',
+    userName: '',
     password: '',
   });
   };
@@ -47,12 +47,12 @@ const Login = () => {
     <div className="authContainer">
       <form className="authForm" onSubmit={handleSubmit}>
         <div className="formGroup">
-          <label htmlFor="email">Email</label>
+          <label htmlFor="userName">Username</label>
           <input
-            type="email"
-            id="email"
-            name="email"
-            value={formData.email || ''} // Provide a default value to avoid undefined issues
+            type="text"
+            id="userName"
+            name="userName"
+            value={formData.userName || ''} // Provide a default value to avoid undefined issues
             onChange={handleChange} // Add the onChange handler
           />  
         </div>
