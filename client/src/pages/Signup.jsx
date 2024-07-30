@@ -1,20 +1,52 @@
-import React from 'react';
+import React, { useState } from 'react';
 import '../assets/styles/SignUp.css'; 
+import { useMutation } from '@apollo/client';
+import Auth from '../../utils/auth';
+import { ADD_USER } from '../../utils/mutations';
 
-const Signup = ({ formData = {}, handleChange, handleSubmit, errors = {} }) => (
-  <div className="authContainer">
-    <form className="authForm" onSubmit={handleSubmit}>
+function Signup(props){
+  const [formData, setFormData] = useState({
+    name: '', email: '', password: ''
+  })
+  const [addUser, { error }] = useMutation(ADD_USER);
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
+  const handleFormSubmit = async (event) => {
+    event.preventDefault();
+    console.log(formData);
+    try {
+      const { data } = await addUser({
+        variables: {...formData},
+      });
+      
+      Auth.login(data.addUser.token);
+    
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  return(
+    <div className="authContainer">
+    <form className="authForm" onSubmit={handleFormSubmit}>
       <div className="formGroup">
-        <label htmlFor="username">Username</label>
+        <label htmlFor="Username">Username</label>
         <input
           type="text"
-          id="username"
-          name="username"
-          value={formData.username || ''} // Provide a default value to avoid undefined issues
+          id="name"
+          name="name"
+          value={formData.name || ''} // Provide a default value to avoid undefined issues
           onChange={handleChange} // Ensure this is provided
-          className={`formInput ${errors.username ? 'inputError' : ''}`}
-        />
-        {errors.username && <p className="error">{errors.username}</p>}
+          className="formInput"
+          />     
       </div>
       <div className="formGroup">
         <label htmlFor="email">Email</label>
@@ -24,9 +56,8 @@ const Signup = ({ formData = {}, handleChange, handleSubmit, errors = {} }) => (
           name="email"
           value={formData.email || ''} // Provide a default value to avoid undefined issues
           onChange={handleChange} // Ensure this is provided
-          className={`formInput ${errors.email ? 'inputError' : ''}`}
-        />
-        {errors.email && <p className="error">{errors.email}</p>}
+          className="formInput"
+          />   
       </div>
       <div className="formGroup">
         <label htmlFor="password">Password</label>
@@ -36,9 +67,8 @@ const Signup = ({ formData = {}, handleChange, handleSubmit, errors = {} }) => (
           name="password"
           value={formData.password || ''} // Provide a default value to avoid undefined issues
           onChange={handleChange} // Ensure this is provided
-          className={`formInput ${errors.password ? 'inputError' : ''}`}
-        />
-        {errors.password && <p className="error">{errors.password}</p>}
+          className="formInput"
+          />   
       </div>
       <button type="submit" className="formButton">
         Sign Up
@@ -46,5 +76,6 @@ const Signup = ({ formData = {}, handleChange, handleSubmit, errors = {} }) => (
     </form>
   </div>
 );
-
+};
+  
 export default Signup;
