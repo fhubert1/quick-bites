@@ -32,6 +32,7 @@ const seedData = async () => {
       phone: "987-654-3210",
     });
 
+    // save users
     await user1.save();
     await user2.save();
 
@@ -50,6 +51,7 @@ const seedData = async () => {
       phone: "666-666-6666",
     });
 
+    // save restaurant
     await restaurant1.save();
     await restaurant2.save();
 
@@ -70,6 +72,7 @@ const seedData = async () => {
       restaurant: restaurant2._id,
     });
 
+    // save dishes
     await dish1.save();
     await dish2.save();
 
@@ -94,6 +97,7 @@ const seedData = async () => {
       orderDate: new Date(),
     });
 
+    // save orders
     await order1.save();
     await order2.save();
 
@@ -104,8 +108,8 @@ const seedData = async () => {
       user: user1._id,
       restaurant: restaurant1._id,
       dish: dish1._id,
-      rating: 5,
-      comment: "Amazing pizza!",
+      rating: 10,
+      comment: "Amazing Food!",
       date: new Date(),
     });
 
@@ -114,14 +118,23 @@ const seedData = async () => {
       restaurant: restaurant2._id,
       dish: dish2._id,
       rating: 4,
-      comment: "Great burger!",
+      comment: "Great Pizza!",
       date: new Date(),
     });
 
     await review1.save();
     await review2.save();
 
-    console.log("Reviews seeded");
+    // push review to restaurants
+    restaurant1.reviews.push(review1._id);
+    restaurant2.reviews.push(review2._id);    
+
+    // save
+    await restaurant1.save();
+    await restaurant2.save();    
+
+    console.log("Reviews added to restaurants");
+
   } catch (error) {
     console.error("Error seeding database:", error);
   }

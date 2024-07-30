@@ -1,8 +1,15 @@
 const { ObjectId } = require('mongodb');
 const bcrypt = require('bcrypt');
 const { User, Restaurant, Dish, Order, Review } = require('../models');
+const { restaurants } = require('../data/restaurantData');
 
 const resolvers = {
+
+    Query: {
+        restaurants: () => restaurants,
+        restaurant: (parent, { id }) => restaurants.find(restaurant => restaurant.id === id),
+    },
+
     Query: {
         users: async () => await User.find(),
         user: async (_, { _id }) => await User.findById(_id),

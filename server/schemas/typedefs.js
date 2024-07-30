@@ -3,9 +3,11 @@ const typeDefs = `
     id: ID!
     name: String!
     email: String!
+    password: String!
     address: String
     phone: String
     orders: [Order]
+    reviews: [Review]
   }
 
   type Restaurant {
@@ -13,8 +15,33 @@ const typeDefs = `
     name: String!
     address: String!
     phone: String!
+    menu: [MenuItem]
+    sides: [Side]    
     dishes: [Dish]
     reviews: [Review]
+  }
+
+  type MenuItem {
+    id: ID!
+    name: String!
+    description: String!
+    price: Float!
+  }
+
+  type Side {
+    id: ID!
+    name: String!
+    description: String!
+  }
+
+  type Review {
+    id: ID!
+    user: User!
+    restaurant: Restaurant!
+    dish: Dish!
+    rating: Int!
+    comment: String!
+    date: String!
   }
 
   type Dish {
@@ -62,6 +89,11 @@ const typeDefs = `
     order(id: ID!): Order
     reviews: [Review]
     review(id: ID!): Review
+  }
+
+  type Query {
+    restaurants: [Restaurant]
+    restaurant(id: ID!): Restaurant
   }
 
   type Mutation {
