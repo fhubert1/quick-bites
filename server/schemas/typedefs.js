@@ -9,7 +9,6 @@ const typeDefs = `
     name: String!
     email: String!
     userName: String!
-    password: String!
     address: String
     phone: String
     orders: [Order]
@@ -109,7 +108,7 @@ const typeDefs = `
     addDish(name: String!, description: String!, price: Float!, restaurantId: ID!): Dish
     addOrder(userId: ID!, restaurantId: ID!, dishes: [OrderDishInput]!, totalPrice: Float!, status: String!): Order
     addReview(userId: ID!, restaurantId: ID!, dishId: ID!, rating: Int!, comment: String): Review
-    login(email: String!, password: String!): Auth
+    login(userName: String!, password: String!): Auth
   }
 
   input OrderDishInput {

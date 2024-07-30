@@ -13,9 +13,13 @@ const app = express();
 const server = new ApolloServer({
   typeDefs,
   resolvers,
-  context: ({ req }) => ({
-    user: req.user,
-  }),
+  context: ({ req }) => {
+    // Create a context object 
+    const context = { req };
+    // Call authMiddleware to add user to context
+    authMiddleware(context); 
+    return context;
+  },
 });
 
 // Create a new instance of an Apollo server with the GraphQL schema
@@ -28,9 +32,13 @@ const startApolloServer = async () => {
     app.use(authMiddleware);
 
     app.use('/graphql', expressMiddleware(server, {
-      context: ({ req }) => ({
-        user: req.user,
-      }),
+      context: ({ req }) => {
+        // Create a context object using authMiddleware
+        const context = { req };
+        // Call authMiddleware to add user to context
+        authMiddleware(context); 
+        return context;
+      },
     }));
 
     db.once("open", async() => {

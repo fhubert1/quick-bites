@@ -6,14 +6,34 @@ const { signToken, AuthenticationError } = require('../utils/auth');
 const resolvers = {
 
     Query: {
-        users: async () => await User.find(),
-        user: async (_, { _id }) => await User.findById(_id),
+        users: async (_, __, { user }) => {
+            if (!user) {
+                throw new AuthenticationError('You must be logged in to view users.');
+            }
+            return await User.find();
+        },
+        user: async (_, { _id }, { user }) => {
+            if (!user) {
+                throw new AuthenticationError('You must be logged in to view this user.');
+            }
+            return await User.findById(_id);
+        },
         restaurants: async () => await Restaurant.find(),
         restaurant: async (_, { _id }) => await Restaurant.findById(_id),
         dishes: async () => await Dish.find(),
         dish: async (_, { _id }) => await Dish.findById(_id),
-        orders: async () => await Order.find(),
-        order: async (_, { _id }) => await Order.findById(_id),
+        orders: async (_, __, { user }) => {
+            if (!user) {
+                throw new AuthenticationError('You must be logged in to view orders.');
+            }
+            return await Order.find({ user: user._id });
+        },
+        order: async (_, { _id }, { user }) => {
+            if (!user) {
+                throw new AuthenticationError('You must be logged in to view this order.');
+            }
+            return await Order.findById(_id);
+        },
         reviews: async () => await Review.find(),
         review: async (_, { _id }) => await Review.findById(_id),
     },
@@ -55,18 +75,36 @@ const resolvers = {
             return { token, user };
         },
         updateUser: async (_, { name, email, userName, password, address, phone }) => {
+            if (!user || user._id !== _id.toString()) {
+                throw new AuthenticationError('You are not authorized to update this user.');
+            }
+
             // Find the user by ID
-            const user = await User.findById(_id);
-            if (!user) {
+            const userToUpdate = await User.findById(_id);
+            if (!userToUpdate) {
                 throw new Error('User not found');
             }
 
             // Update user fields
-            if (name) user.name = name;
-            if (email) user.email = email;
-            if (userName) user.userName = userName;
-            if (address) user.address = address;
-            if (phone) user.phone = phone;
+            if (name) {
+                userToUpdate.name = name;
+            }
+
+            if (email) {
+                userToUpdate.email = email;
+            }
+
+            if (userName) {
+                userToUpdate.userName = userName;
+            }
+
+            if (address) {
+                userToUpdate.address = address;
+            }
+
+            if (phone) {
+                userToUpdate.phone = phone;
+            }
 
             // Hash new password if provided
             if (password) {
@@ -74,7 +112,7 @@ const resolvers = {
             }
 
             // Save the updated user
-            return await user.save();
+            return await userToUpdate.save();
         },
         addRestaurant: async (_, { name, address, phone }) => {
             const restaurant = new Restaurant({ name, address, phone });
@@ -84,7 +122,11 @@ const resolvers = {
             const dish = new Dish({ name, description, price, restaurant: ObjectId(restaurantId) });
             return await dish.save();
         },
-        addOrder: async (_, { userId, restaurantId, dishes }) => {
+        addOrder: async (_, { userId, restaurantId, dishes }, { user }) => {
+            if (!user || user._id !== userId) {
+                throw new AuthenticationError('You are not authorized to create an order for this user.');
+            }
+
             const order = new Order({
                 user: ObjectId(userId),
                 restaurant: ObjectId(restaurantId),
@@ -95,7 +137,11 @@ const resolvers = {
             });
             return await order.save();
         },
-        addReview: async (_, { userId, restaurantId, dishId, rating, comment }) => {
+        addReview: async (_, { userId, restaurantId, dishId, rating, comment }, { user }) => {
+            if (!user || user._id !== userId) {
+                throw new AuthenticationError('You are not authorized to create a review for this user.');
+            }
+                        
             const review = new Review({
                 user: ObjectId(userId),
                 restaurant: restaurantId ? ObjectId(restaurantId) : null,
