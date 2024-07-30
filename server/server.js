@@ -9,9 +9,13 @@ const seedData = require("./config/seedData");
 
 const PORT = process.env.PORT || 3001;
 const app = express();
+
 const server = new ApolloServer({
   typeDefs,
   resolvers,
+  context: ({ req }) => ({
+    user: req.user,
+  }),
 });
 
 // Create a new instance of an Apollo server with the GraphQL schema
@@ -21,11 +25,14 @@ const startApolloServer = async () => {
     app.use(express.urlencoded({ extended: false }));
     app.use(express.json());
   
-    //app.use('/graphql', expressMiddleware(server));
-    app.use("/graphql", expressMiddleware(server, {
-        context: authMiddleware
+    app.use(authMiddleware);
+
+    app.use('/graphql', expressMiddleware(server, {
+      context: ({ req }) => ({
+        user: req.user,
+      }),
     }));
-  
+
     db.once("open", async() => {
         console.log("Connected to MongoDB");
 
