@@ -4,12 +4,15 @@ import { useMutation } from '@apollo/client';
 import Auth from '../../utils/auth';
 import { ADD_USER } from '../../utils/mutations';
 
-function Signup(props){
+const Signup = () => {
   const [formData, setFormData] = useState({
-    name: '', email: '', password: ''
+    userName: '', 
+    email: '', 
+    password: ''
   })
   const [addUser, { error }] = useMutation(ADD_USER);
 
+  // Update state based on form input changes
   const handleChange = (event) => {
     const { name, value } = event.target;
 
@@ -19,6 +22,7 @@ function Signup(props){
     });
   };
 
+  // Handle the submition of form
   const handleFormSubmit = async (event) => {
     event.preventDefault();
     console.log(formData);
@@ -26,7 +30,7 @@ function Signup(props){
       const { data } = await addUser({
         variables: {...formData},
       });
-      
+      console.log('Mutation response:', data);
       Auth.login(data.addUser.token);
     
     } catch (error) {
@@ -38,12 +42,12 @@ function Signup(props){
     <div className="authContainer">
     <form className="authForm" onSubmit={handleFormSubmit}>
       <div className="formGroup">
-        <label htmlFor="Username">Username</label>
+        <label htmlFor="userName">Username</label>
         <input
           type="text"
-          id="name"
-          name="name"
-          value={formData.name || ''} // Provide a default value to avoid undefined issues
+          id="userName"
+          name="userName"
+          value={formData.userName || ''} // Provide a default value to avoid undefined issues
           onChange={handleChange} // Ensure this is provided
           className="formInput"
           />     
