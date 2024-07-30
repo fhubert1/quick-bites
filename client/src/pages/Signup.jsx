@@ -10,7 +10,7 @@ const Signup = () => {
     email: '', 
     password: ''
   })
-  const [addUser, { error }] = useMutation(ADD_USER);
+  const [addUser] = useMutation(ADD_USER);
 
   // Update state based on form input changes
   const handleChange = (event) => {
@@ -27,11 +27,16 @@ const Signup = () => {
     event.preventDefault();
     console.log(formData);
     try {
-      const { data } = await addUser({
-        variables: {...formData},
+      const mutationResponse = await addUser({
+        variables: {
+          userName: formData.userName,
+          email: formData.email,
+          password: formData.password
+        },
       });
       console.log('Mutation response:', data);
-      Auth.login(data.addUser.token);
+      const token = mutationResponse.data.addUser.token
+      Auth.login(token);
     
     } catch (error) {
       console.error(error);
