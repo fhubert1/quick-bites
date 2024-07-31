@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import '../assets/styles/SignUp.css'; 
 import { useMutation } from '@apollo/client';
 import Auth from '../../utils/auth';
@@ -34,12 +34,14 @@ const Signup = () => {
           password: formData.password
         },
       });
-      console.log('Mutation response:', data);
+      console.log("Mutation response:" + mutationResponse);
       const token = mutationResponse.data.addUser.token
-      Auth.login(token);
+     Auth.login(token);
     
-    } catch (error) {
-      console.error(error);
+    } catch (err) {
+      console.log("string");
+      console.log(err);
+      console.error(err);
     }
   }
 

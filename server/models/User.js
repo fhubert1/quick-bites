@@ -6,7 +6,6 @@ const { Schema } = mongoose;
 const userSchema = new Schema({
     name: {
         type: String,
-        required: true,
         trim: true
     },
     userName: { // New field
@@ -26,11 +25,9 @@ const userSchema = new Schema({
     }, 
     address: {
         type: String,
-        required: true
     },
     phone: {
         type: String,
-        required: true
     },
     orders: [{ type: Schema.Types.ObjectId, ref: "Order" }],
 });

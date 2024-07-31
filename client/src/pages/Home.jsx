@@ -1,4 +1,4 @@
-import React from 'react';
+ import React from 'react';
 import '../assets/styles/Home.css'; // Add your styles for the homepage here
 
 const Home = () => (

@@ -10,10 +10,11 @@ module.exports = {
       code: 'UNAUTHENTICATED',
     },
   }),
-  authMiddleware: function ({ context }) {
-
+  authMiddleware: function ({ req }) {
+console.log( "string");
     //get the req object from context
-    const req = context.req; 
+   // const req = context.req; 
+
     console.log("req: " + req);
     
     // allows token to be sent via req.body, req.query, or headers
@@ -31,18 +32,19 @@ module.exports = {
     console.log("token", token)
 
     if (!token) {
-      return context;
+      return req;
     }
 
     try {
       const { data } = jwt.verify(token, secret, { maxAge: expiration });
-      context.user = data;
+      req.user = data;
+      console.log("Token verified successfully", data);
     }
     catch {
       console.log('Invalid token');
     }
 
-    return context;
+    return req;
   },
   signToken: function ({ userName, email, _id }) {
     const payload = { userName, email, _id };
