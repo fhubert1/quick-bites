@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import '../assets/styles/Login.css'; 
 import { useMutation } from '@apollo/client';
 import { LOGIN_USER } from '../../utils/mutations';

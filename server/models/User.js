@@ -15,7 +15,6 @@ const userSchema = new Schema({
     },    
     email: {
         type: String,
-        required: true,
         unique: true
     },
     password: {
@@ -59,6 +58,11 @@ userSchema.methods.comparePassword = async function (candidatePassword) {
       throw new Error("Error passwords do not match!");
     }
 };
+
+// compare the incoming password with the hashed password
+userSchema.methods.isCorrectPassword = async function(password) {
+    return await bcrypt.compare(password, this.password);
+  };
 
 const User = mongoose.model("User", userSchema);
 
