@@ -1,8 +1,10 @@
 const { ObjectId } = require('mongodb');
 const bcrypt = require('bcrypt');
 const { User, Restaurant, Dish, Order, Review } = require('../models');
+const { signToken, AuthenticationError } = require('../utils/auth');
 
 const resolvers = {
+
     Query: {
         users: async () => await User.find(),
         user: async (_, { _id }) => await User.findById(_id),
@@ -16,9 +18,62 @@ const resolvers = {
         review: async (_, { _id }) => await Review.findById(_id),
     },
     Mutation: {
-        addUser: async (_, { name, email, password, address, phone }) => {
+        addUser: async (_, { name, email, userName, password, address, phone }) => {
             const hashedPassword = await bcrypt.hash(password, 10);
-            const user = new User({ name, email, password: hashedPassword, address, phone });
+            const user = new User({
+                name,
+                email,
+                userName,
+                password: hashedPassword,
+                address,
+                phone
+            });
+            // save user to database
+            await user.save();
+
+            // generate token for user
+            const token = signToken(user);
+            console.log("generated token from the server: " + token);
+
+            return { token, user }
+        },
+        login: async (parent, { userName, password }) => {
+            const user = await User.findOne({ userName });
+
+            if (!user) {
+                throw AuthenticationError;
+            }
+
+            const correctPw = await user.isCorrectPassword(password);
+
+            if (!correctPw) {
+                throw AuthenticationError;
+            }
+
+            const token = signToken(user);
+
+            return { token, user };
+        },
+        updateUser: async (_, { name, email, userName, password, address, phone }) => {
+            // Find the user by ID
+            const user = await User.findById(_id);
+            if (!user) {
+                throw new Error('User not found');
+            }
+
+            // Update user fields
+            if (name) user.name = name;
+            if (email) user.email = email;
+            if (userName) user.userName = userName;
+            if (address) user.address = address;
+            if (phone) user.phone = phone;
+
+            // Hash new password if provided
+            if (password) {
+                user.password = await bcrypt.hash(password, 10);
+            }
+
+            // Save the updated user
             return await user.save();
         },
         addRestaurant: async (_, { name, address, phone }) => {
