@@ -58,19 +58,27 @@ const resolvers = {
             return { token, user }
         },
         login: async (parent, { userName, password }) => {
+            console.log("Login attempt received");
+            console.log("userName", userName)
+            console.log("Password:", password);
             const user = await User.findOne({ userName });
-
+            
+            console.log("User found:", user);
             if (!user) {
+                console.error("User not found");
                 throw AuthenticationError;
             }
 
             const correctPw = await user.isCorrectPassword(password);
+            console.log("Password correct:", correctPw);
 
             if (!correctPw) {
+                console.error("Incorrect password");
                 throw AuthenticationError;
             }
 
             const token = signToken(user);
+            console.log("Generated token:", token);
 
             return { token, user };
         },
