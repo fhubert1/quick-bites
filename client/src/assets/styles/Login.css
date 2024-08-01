@@ -9,7 +9,7 @@
   .authForm {
     width: 100%;
     max-width: 400px; /* Adjust the width as needed */
-    background: #fff;
+    background:rgba(217, 192, 159, 0.914);
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
