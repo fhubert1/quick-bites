@@ -6,7 +6,7 @@ const typeDefs = `
 
   type User {
     id: ID!
-    name: String!
+    name: String
     email: String!
     userName: String!
     address: String
@@ -102,7 +102,7 @@ const typeDefs = `
   }
 
   type Mutation {
-    addUser(name: String!, email: String!, userName: String!, password: String!, address: String, phone: String): Auth
+     addUser(name: String, email: String!, userName: String!, password: String!, address: String, phone: String): Auth
     updateUser(name: String!, email: String!, userName: String!, password: String!, address: String, phone: String): User
     addRestaurant(name: String!, address: String!, phone: String!): Restaurant
     addDish(name: String!, description: String!, price: Float!, restaurantId: ID!): Dish
