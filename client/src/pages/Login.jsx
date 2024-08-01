@@ -1,68 +1,77 @@
-import React, { useState } from 'react'; // Import useState from React
+import React, { useState } from 'react';
 import '../assets/styles/Login.css'; 
+import { useMutation } from '@apollo/client';
+import { LOGIN_USER } from '../../utils/mutations';
 
-const Login = ({ formData = {}, handleChange, handleSubmit, errors = {} }) => (
-  <div className="authContainer">
-    <form className="authForm" onSubmit={handleSubmit}>
-      <div className="formGroup">
-        <label htmlFor="username">Username</label>
-        <input
-          type="text"
-          id="username"
-          name="username"
-          value={formData.username || ''} // Provide a default value to avoid undefined issues
-          onChange={handleChange} // Add the onChange handler
-          className={`formInput ${errors.username ? 'inputError' : ''}`}
-        />
-        {errors.username && <p className="error">{errors.username}</p>}
-      </div>
-      <div className="formGroup">
-        <label htmlFor="password">Password</label>
-        <input
-          type="password"
-          id="password"
-          name="password"
-          value={formData.password || ''} // Provide a default value to avoid undefined issues
-          onChange={handleChange} // Add the onChange handler
-          className={`formInput ${errors.password ? 'inputError' : ''}`}
-        />
-        {errors.password && <p className="error">{errors.password}</p>}
-      </div>
-      <button type="submit" className="formButton">
-        Login
-      </button>
-    </form>
-  </div>
-);
+import Auth from '../../utils/auth';
 
-const Auth = () => {
+const Login = () => {
   const [formData, setFormData] = useState({
-    username: '',
+    userName: '',
     password: ''
   });
-  const [errors, setErrors] = useState({});
-
+  const [ login, {error, data }] = useMutation(LOGIN_USER);
+  
+  // Update state based on form input changes
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
+
+    setFormData({
+      ...formData,
       [name]: value,
-    }));
+    });
   };
-
-  const handleSubmit = (e) => {
+  // Handle the submition of form
+  const handleSubmit =  async (e) => {
     e.preventDefault();
-    // Add your submit logic here
+    console.log(formData);
+
+    try {
+      const { data } = await login({
+        variables: {...formData},
+      });
+
+      Auth.login(data.login.token);
+    } catch (e) {
+      console.error(e)
+    }
+
+  //Clear form
+  setFormData({
+    userName: '',
+    password: '',
+  });
   };
-
-  return (
-    <Login
-      formData={formData}
-      handleChange={handleChange}
-      handleSubmit={handleSubmit}
-      errors={errors}
-    />
+    
+  return(
+    <div className="authContainer">
+      <form className="authForm" onSubmit={handleSubmit}>
+        <div className="formGroup">
+          <label htmlFor="userName">Username</label>
+          <input
+            type="text"
+            id="userName"
+            name="userName"
+            value={formData.userName || ''} // Provide a default value to avoid undefined issues
+            onChange={handleChange} // Add the onChange handler
+          />  
+        </div>
+        <div className="formGroup">
+          <label htmlFor="password">Password</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            value={formData.password || ''} // Provide a default value to avoid undefined issues
+            onChange={handleChange} // Add the onChange handler
+          />
+        </div>
+        <button type="submit" className="formButton">
+          Login
+        </button>
+      </form>
+    </div>
   );
-};
+}
 
-export default Auth;
+export default Login;
