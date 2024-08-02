@@ -37,6 +37,7 @@ console.log( "string");
 
     try {
       const { data } = jwt.verify(token, secret, { maxAge: expiration });
+      console.log("the data from the token is: " + data);
       req.user = data;
       console.log("Token verified successfully", data);
     }
