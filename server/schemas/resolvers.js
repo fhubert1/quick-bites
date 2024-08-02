@@ -39,12 +39,11 @@ const resolvers = {
     },
     Mutation: {
         addUser: async (_, { name, email, userName, password, address, phone }) => {
-            const hashedPassword = await bcrypt.hash(password, 10);
             const user = new User({
                 name,
                 email,
                 userName,
-                password: hashedPassword,
+                password,
                 address,
                 phone
             });
@@ -60,7 +59,6 @@ const resolvers = {
         login: async (parent, { userName, password }) => {
             console.log("Login attempt received");
             console.log("userName", userName)
-            console.log("Password:", password);
             const user = await User.findOne({ userName });
             
             console.log("User found:", user);
