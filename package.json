@@ -22,6 +22,7 @@
     "@fontsource/bungee-shade": "^5.0.21",
     "graphql": "^16.9.0",
     "jwt-decode": "^4.0.0",
-    "latest": "^0.2.0"
+    "latest": "^0.2.0",
+    "yelp-fusion": "^3.0.0"
   }
 }
