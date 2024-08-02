@@ -59,7 +59,6 @@ const resolvers = {
         login: async (parent, { userName, password }) => {
             console.log("Login attempt received");
             console.log("userName", userName)
-            console.log("Password:", password);
             const user = await User.findOne({ userName });
             
             console.log("User found:", user);

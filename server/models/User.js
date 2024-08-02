@@ -62,8 +62,6 @@ userSchema.methods.comparePassword = async function (candidatePassword) {
 // compare the incoming password with the hashed password
 userSchema.methods.isCorrectPassword = async function(password) {
     try {
-        console.log("passed in password: " + password);
-        console.log("hashed password: " + this.password)
         return await bcrypt.compare(password, this.password);
     } catch (err) {
         throw new Error("Error comparing passwords....verify password!")
