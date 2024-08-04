@@ -1,190 +1,413 @@
+require('dotenv').config();
 const { ObjectId } = require('mongodb');
 const bcrypt = require('bcrypt');
 const { User, Restaurant, Dish, Order, Review } = require('../models');
 const { signToken, AuthenticationError } = require('../utils/auth');
+// add stripe
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY); // Load Stripe with the secret key from .env
+
 
 const resolvers = {
 
     Query: {
         users: async (_, __, { user }) => {
-            if (!user) {
-                throw new AuthenticationError('You must be logged in to view users.');
+            try {
+                if (!user) {
+                    throw new AuthenticationError('You must be logged in to view users.');
+                }
+                return await User.find();
+            } catch (err) {
+                console.error(err);
+                throw new Error("Error - failed to get users");
             }
-            return await User.find();
         },
         user: async (_, { _id }, { user }) => {
-            if (!user) {
-                throw new AuthenticationError('You must be logged in to view this user.');
+            try {
+                if (!user) {
+                    throw new AuthenticationError('You must be logged in to view this user.');
+                }
+                return await User.findById(_id);
+
+            } catch (err) {
+                console.error(err);
+                throw new Error("Error - failed to get user by id");
             }
-            return await User.findById(_id);
         },
-        restaurants: async () => await Restaurant.find(),
-        restaurant: async (_, { _id }) => await Restaurant.findById(_id),
-        dishes: async () => await Dish.find(),
-        dish: async (_, { _id }) => await Dish.findById(_id),
-        orders: async (_, __, { user }) => {
-            if (!user) {
-                throw new AuthenticationError('You must be logged in to view orders.');
+        restaurants: async () => {
+            try {
+                return await Restaurant.find();
+            } catch (err) {
+                console.error(err);
+                throw new Error('Error - failed to get restaurants');
             }
-            return await Order.find({ user: user._id });
+        },
+        restaurant: async (_, { _id }) => {
+            try {
+                return await Restaurant.findById(_id);
+            } catch (err) {
+                console.error(err);
+                throw new Error('Error - failed to get restaurants by id');
+            }
+        },
+        dishes: async () => {
+            try {
+                return await Dish.find();
+            } catch (err) {
+                console.error(err);
+                throw new Error('Error - failed to get dishes');
+            }
+        },
+        dish: async (_, { _id }) => {
+            try {
+                return await Dish.findById(_id);
+            } catch (err) {
+                console.error(err);
+                throw new Error('Error - failed to get dishe by id');
+            }
+        },
+        orders: async (_, __, { user }) => {
+            try {
+                if (!user) {
+                    throw new AuthenticationError('You must be logged in to view orders.');
+                }
+                return await Order.find({ user: user._id });
+            } catch (err) {
+                console.error(err);
+                throw new Error('Error - failed to get orders');
+            }
         },
         order: async (_, { _id }, { user }) => {
-            if (!user) {
-                throw new AuthenticationError('You must be logged in to view this order.');
+            try {
+                if (!user) {
+                    throw new AuthenticationError('You must be logged in to view this order.');
+                }
+                return await Order.findById(_id);
+            } catch (err) {
+                console.error(err);
+                throw new Error('Error - failed to get order by id');
             }
-            return await Order.findById(_id);
         },
-        reviews: async () => await Review.find(),
-        review: async (_, { _id }) => await Review.findById(_id),
+        reviews: async () => {
+            try {
+                return await Review.find();
+            } catch (err) {
+                console.error(err);
+                throw new Error('Error - failed to get reviews');
+            }
+        },
+        review: async (_, { _id }) => {
+            try {
+                return await Review.findById(_id);
+            } catch (err) {
+                console.error(err);
+                throw new Error('Error - failed to get review by id');
+            }
+        },
+        checkout: async (parent, { dish }, context) => {
+            try {
+                const url = new URL(req.headers.referer).origin;
+
+                // Build line_items array for Stripe
+                const line_items = await Promise.all(dishes.map(async (dish) => {
+                    const product = await Dish.findById(dish.dishId);
+                    if (!product) {
+                        throw new Error(`Dish not found: ${dish.dishId}`);
+                    }
+                    return {
+                        price_data: {
+                            currency: 'usd',
+                            product_data: {
+                                name: product.name,
+                                description: product.description,
+                                images: [`${url}/images/${product.image}`],
+                            },
+                            unit_amount: product.price * 100,
+                        },
+                        quantity: dish.quantity,
+                    };
+                }));
+
+                // Create Stripe checkout session
+                const session = await stripe.checkout.sessions.create({
+                    payment_method_types: ['card'],
+                    line_items,
+                    mode: 'payment',
+                    success_url: `${url}/success?session_id={CHECKOUT_SESSION_ID}`,
+                    cancel_url: `${url}/`,
+                });
+
+                return { session: session.id };
+            } catch (err) {
+                console.error(err);
+                throw new Error('Error - failed to create checkout session');
+            }
+        },
     },
     Mutation: {
         addUser: async (_, { name, email, userName, password, address, phone }) => {
-            const user = new User({
-                name,
-                email,
-                userName,
-                password,
-                address,
-                phone
-            });
-            // save user to database
-            await user.save();
+            try {
+                const user = new User({
+                    name,
+                    email,
+                    userName,
+                    password,
+                    address,
+                    phone
+                });
+                // save user to database
+                await user.save();
 
-            // generate token for user
-            const token = signToken(user);
-            console.log("generated token from the server: " + token);
+                // generate token for user
+                const token = signToken(user);
+                console.log("generated token from the server: " + token);
 
-            return { token, user }
+                return { token, user }
+
+            } catch (err) {
+                console.error(err);
+                throw new Error("Error - failed to add user");
+            }
         },
         login: async (parent, { userName, password }) => {
-            console.log("Login attempt received");
-            console.log("userName", userName)
-            const user = await User.findOne({ userName });
-            
-            console.log("User found:", user);
-            if (!user) {
-                console.error("User not found");
-                throw AuthenticationError;
+            try {
+                console.log("Login attempt received");
+                console.log("userName", userName)
+                const user = await User.findOne({ userName });
+
+                console.log("User found:", user);
+                if (!user) {
+                    console.error("User not found");
+                    throw AuthenticationError;
+                }
+
+                const correctPw = await user.isCorrectPassword(password);
+                console.log("Password correct:", correctPw);
+
+                if (!correctPw) {
+                    console.error("Incorrect password");
+                    throw AuthenticationError;
+                }
+
+                const token = signToken(user);
+                console.log("Generated token:", token);
+
+                return { token, user };
+
+            } catch (err) {
+                console.error(err);
+                throw new Error('Error - failed to log in');
             }
-
-            const correctPw = await user.isCorrectPassword(password);
-            console.log("Password correct:", correctPw);
-
-            if (!correctPw) {
-                console.error("Incorrect password");
-                throw AuthenticationError;
-            }
-
-            const token = signToken(user);
-            console.log("Generated token:", token);
-
-            return { token, user };
         },
         updateUser: async (_, { name, email, userName, password, address, phone }) => {
-            if (!user || user._id !== _id.toString()) {
-                throw new AuthenticationError('You are not authorized to update this user.');
-            }
+            try {
+                if (!user || user._id !== _id.toString()) {
+                    throw new AuthenticationError('You are not authorized to update this user.');
+                }
 
-            // Find the user by ID
-            const userToUpdate = await User.findById(_id);
-            if (!userToUpdate) {
-                throw new Error('User not found');
-            }
+                // Find the user by ID
+                const userToUpdate = await User.findById(_id);
+                if (!userToUpdate) {
+                    throw new Error('User not found');
+                }
 
-            // Update user fields
-            if (name) {
-                userToUpdate.name = name;
-            }
+                // Update user fields
+                if (name) {
+                    userToUpdate.name = name;
+                }
 
-            if (email) {
-                userToUpdate.email = email;
-            }
+                if (email) {
+                    userToUpdate.email = email;
+                }
 
-            if (userName) {
-                userToUpdate.userName = userName;
-            }
+                if (userName) {
+                    userToUpdate.userName = userName;
+                }
 
-            if (address) {
-                userToUpdate.address = address;
-            }
+                if (address) {
+                    userToUpdate.address = address;
+                }
 
-            if (phone) {
-                userToUpdate.phone = phone;
-            }
+                if (phone) {
+                    userToUpdate.phone = phone;
+                }
 
-            // Hash new password if provided
-            if (password) {
-                user.password = await bcrypt.hash(password, 10);
-            }
+                // Hash new password if provided
+                if (password) {
+                    user.password = await bcrypt.hash(password, 10);
+                }
 
-            // Save the updated user
-            return await userToUpdate.save();
+                // Save the updated user
+                return await userToUpdate.save();
+
+            } catch (err) {
+                console.error(err);
+                throw new Error('Error - failed to update user');
+            }
         },
         addRestaurant: async (_, { name, address, phone }) => {
-            const restaurant = new Restaurant({ name, address, phone });
-            return await restaurant.save();
+            try {
+                const restaurant = new Restaurant({ name, address, phone });
+                return await restaurant.save();
+            } catch (err) {
+                console.error(err);
+                throw new Error('Error - failed to add restaurant');
+            }
         },
         addDish: async (_, { name, description, price, restaurantId }) => {
-            const dish = new Dish({ name, description, price, restaurant: ObjectId(restaurantId) });
-            return await dish.save();
+            try {
+                const dish = new Dish({ name, description, price, restaurant: ObjectId(restaurantId) });
+                return await dish.save();
+            } catch (err) {
+                console.error(err);
+                throw new Error('Error - failed to add dish');
+            }
         },
         addOrder: async (_, { userId, restaurantId, dishes }, { user }) => {
-            if (!user || user._id !== userId) {
-                throw new AuthenticationError('You are not authorized to create an order for this user.');
-            }
+            try {
+                if (!user || user._id !== userId) {
+                    throw new AuthenticationError('You are not authorized to create an order for this user.');
+                }
 
-            const order = new Order({
-                user: ObjectId(userId),
-                restaurant: ObjectId(restaurantId),
-                dishes: dishes.map(dish => ({ dish: ObjectId(dish.dishId), quantity: dish.quantity })),
-                totalPrice: dishes.reduce((total, dish) => total + dish.price * dish.quantity, 0),
-                status: 'Pending',
-                orderDate: new Date().toISOString(),
-            });
-            return await order.save();
+                const order = new Order({
+                    user: ObjectId(userId),
+                    restaurant: ObjectId(restaurantId),
+                    dishes: dishes.map(dish => ({ dish: ObjectId(dish.dishId), quantity: dish.quantity })),
+                    totalPrice: dishes.reduce((total, dish) => total + dish.price * dish.quantity, 0),
+                    status: 'Pending',
+                    orderDate: new Date().toISOString(),
+                });
+                return await order.save();
+
+            } catch (err) {
+                console.error(err);
+                throw new Error('Error - failed to add order');
+            }
         },
         addReview: async (_, { userId, restaurantId, dishId, rating, comment }, { user }) => {
-            if (!user || user._id !== userId) {
-                throw new AuthenticationError('You are not authorized to create a review for this user.');
+            try {
+                if (!user || user._id !== userId) {
+                    throw new AuthenticationError('You are not authorized to create a review for this user.');
+                }
+
+                const review = new Review({
+                    user: ObjectId(userId),
+                    restaurant: restaurantId ? ObjectId(restaurantId) : null,
+                    dish: dishId ? ObjectId(dishId) : null,
+                    rating,
+                    comment,
+                    date: new Date().toISOString(),
+                });
+                return await review.save();
+            } catch (err) {
+                console.error(err);
+                throw new Error('Error - failed to add review');
             }
-                        
-            const review = new Review({
-                user: ObjectId(userId),
-                restaurant: restaurantId ? ObjectId(restaurantId) : null,
-                dish: dishId ? ObjectId(dishId) : null,
-                rating,
-                comment,
-                date: new Date().toISOString(),
-            });
-            return await review.save();
         },
     },
     User: {
-        orders: async (user) => await Order.find({ user: user._id }),
+        orders: async (user) => {
+            try {
+                return await Order.find({ user: user._id });
+            } catch (err) {
+                console.error(err);
+                throw new Error('Error - failed to fetch orders for user');
+            }
+        },
+
     },
     Restaurant: {
-        dishes: async (restaurant) => await Dish.find({ restaurant: restaurant._id }),
-        reviews: async (restaurant) => await Review.find({ restaurant: restaurant._id }),
+        dishes: async (restaurant) => {
+            try {
+                return await Dish.find({ restaurant: restaurant._id });
+            } catch (err) {
+                console.error(err);
+                throw new Error('Error - failed to fetch dishes for restaurant');
+            }
+        },
+        reviews: async (restaurant) => {
+            try {
+                return await Review.find({ restaurant: restaurant._id });
+            } catch (err) {
+                console.error(err);
+                throw new Error('Error - failed to fetch reviews for restaurant');
+            }
+        },
     },
     Dish: {
-        restaurant: async (dish) => await Restaurant.findById(dish.restaurant),
-        reviews: async (dish) => await Review.find({ dish: dish._id }),
+        restaurant: async (dish) => {
+            try {
+                return await Restaurant.findById(dish.restaurant);
+            } catch (err) {
+                console.error(err);
+                throw new Error('Error - failed to fetch restaurant for dish');
+            }
+        },
+        reviews: async (dish) => {
+            try {
+                return await Review.find({ dish: dish._id });
+            } catch (err) {
+                console.error(err);
+                throw new Error('Error - failed to fetch reviews for dish');
+            }
+        },
+
     },
     Order: {
-        user: async (order) => await User.findById(order.user),
-        restaurant: async (order) => await Restaurant.findById(order.restaurant),
+        user: async (order) => {
+            try {
+                return await User.findById(order.user);
+            } catch (err) {
+                console.error(err);
+                throw new Error('Error - failed to fetch user for order');
+            }
+        },
+        restaurant: async (order) => {
+            try {
+                return await Restaurant.findById(order.restaurant);
+            } catch (err) {
+                console.error(err);
+                throw new Error('Error - fetch restaurant for order');
+            }
+        },
         dishes: async (order) => {
-            return order.dishes.map(async (orderDish) => ({
-                dish: await Dish.findById(orderDish.dish),
-                quantity: orderDish.quantity,
-            }));
+            try {
+                return await Promise.all(order.dishes.map(async (orderDish) => {
+                    const dish = await Dish.findById(orderDish.dish);
+                    return { dish, quantity: orderDish.quantity };
+                }));
+            } catch (err) {
+                console.error(err);
+                throw new Error('Error - fetch dishes for order');
+            }
         },
     },
     Review: {
-        user: async (review) => await User.findById(review.user),
-        restaurant: async (review) => review.restaurant ? await Restaurant.findById(review.restaurant) : null,
-        dish: async (review) => review.dish ? await Dish.findById(review.dish) : null,
+        user: async (review) => {
+            try {
+                return await User.findById(review.user);
+            } catch (err) {
+                console.error(err);
+                throw new Error('Error - failed to fetch user for review');
+            }
+        },
+        restaurant: async (review) => {
+            try {
+                return await Restaurant.findById(review.restaurant);
+            } catch (err) {
+                console.error(err);
+                throw new Error('Error - failed to fetch restaurant for review');
+            }
+        },
+        dish: async (review) => {
+            try {
+                return await Dish.findById(review.dish);
+            } catch (err) {
+                console.error(err);
+                throw new Error('Error - failed to fetch dish for review');
+            }
+        },
     },
+
 };
 
 module.exports = resolvers;
