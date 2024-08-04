@@ -1,0 +1,15 @@
+.image-container {
+    width: 100%;
+    max-width: 500px; 
+    margin: auto;
+  }
+
+
+.restaurant-image {
+    max-width: 100%; 
+    height: auto;    
+    max-height: 300px; 
+    object-fit: cover; 
+  }
+
+  

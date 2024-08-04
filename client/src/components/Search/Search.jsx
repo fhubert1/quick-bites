@@ -1,11 +1,13 @@
 import { useState } from 'react';
 import { searchYelpRestaurants } from '../../../utils/api';
 import './Search.css';
+import { useNavigate } from 'react-router-dom';
 
 const SearchRestaurants = () => {
   const [searchedRestaurants, setSearchedRestaurants] = useState([]);
   const [searchInput, setSearchInput] = useState('');
   const [location, setLocation] = useState('');
+  const navigate = useNavigate();
 
   const handleSearch = async (event) => {
     event.preventDefault();
@@ -32,6 +34,12 @@ const SearchRestaurants = () => {
     } catch (err) {
       console.error(err);
     }
+  };
+
+  const handleCardClick = (restaurant) => {
+    console.log('Clicked restaurant:', restaurant);
+    navigate(`/restaurant/${restaurant.id}`, { state: { restaurant} });
+    
   };
 
     return (
@@ -63,7 +71,7 @@ const SearchRestaurants = () => {
         <div className="results-container">
           {searchedRestaurants.length > 0 ? (
             searchedRestaurants.map((restaurant) => (
-              <div key={restaurant.id} className="restaurant-card">
+              <div key={restaurant.id} className="restaurant-card" onClick={() => handleCardClick(restaurant)}>
                 <img
                   src={restaurant.image_url}
                   alt={restaurant.name}
