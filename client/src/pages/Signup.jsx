@@ -81,7 +81,8 @@ const Signup = () => {
           className="formInput"
           />   
       </div>
-      <button type="submit" className="formButton">
+      
+      <button onClick={()=> "submit"('signup was successful!')} type="submit" className="formButton">
         Sign Up
       </button>
     </form>

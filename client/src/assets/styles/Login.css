@@ -62,4 +62,6 @@
   .inputError {
     border-color: red;
   }
-  
+  @media screen 
+  and (max-width: 992px) and (min-width: 300px){
+ }
