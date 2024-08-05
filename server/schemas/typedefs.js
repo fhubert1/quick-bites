@@ -83,6 +83,10 @@ const typeDefs = `
     date: String!
   }
 
+  type Checkout {
+    session: ID!
+  }
+      
   type Query {
     users: [User]
     user(id: ID!): User
@@ -94,11 +98,7 @@ const typeDefs = `
     order(id: ID!): Order
     reviews: [Review]
     review(id: ID!): Review
-  }
-
-  type Query {
-    restaurants: [Restaurant]
-    restaurant(id: ID!): Restaurant
+    checkout(dish: [OrderDishInput]!): Checkout    
   }
 
   type Mutation {
