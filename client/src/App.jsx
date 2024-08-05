@@ -1,6 +1,7 @@
 //import React from "react";
 import styles from "../src/App.module.css";
 import Navbar from "./components/Navbar/Navbar";
+import Cart from './components/Cart';
 import { Outlet } from "react-router-dom"
 import { 
   ApolloProvider,
@@ -36,6 +37,7 @@ function App() {
     <ApolloProvider client={client}>
     <div className={styles.App}>
       <Navbar />
+      <Cart/>
       <Outlet />
     </div>
     </ApolloProvider>

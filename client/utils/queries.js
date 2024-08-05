@@ -19,3 +19,39 @@ export const QUERY_ME = gql`
     }
   }
 `;
+export const QUERY_DISH = gql`
+  query dish($id: ID!) {
+    dish(id: $id) {
+      id
+      name
+      description
+      price
+      image
+      category {
+        name
+      }
+    }
+  }
+`;
+export const QUERY_ALL_DISHES = gql`
+  query allDishes {
+    allDishes {
+      id
+      name
+      description
+      price
+      image
+      category {
+        name
+      }
+    }
+  }
+}`;
+
+export const QUERY_CHECKOUT = gql`
+  query getCheckout {
+    checkout {
+      session
+    }
+  }
+`;
