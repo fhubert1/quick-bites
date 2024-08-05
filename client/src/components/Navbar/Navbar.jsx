@@ -30,6 +30,11 @@ import Auth from "../../../utils/auth";
            </Link>
         </li>
         <li>
+            <Link to="/Cart">
+            Cart
+           </Link>
+        </li>
+        <li>
         <a href="/" onClick={() => Auth.logout()}>
               Logout
             </a>

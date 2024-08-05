@@ -3,8 +3,7 @@ const { ObjectId } = require('mongodb');
 const bcrypt = require('bcrypt');
 const { User, Restaurant, Dish, Order, Review } = require('../models');
 const { signToken, AuthenticationError } = require('../utils/auth');
-// add stripe
-const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY); // Load Stripe with the secret key from .env
+const stripe = require('stripe') // Load Stripe with the secret key from .env
 
 
 const resolvers = {
