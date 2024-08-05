@@ -41,10 +41,7 @@ const menu = [
             randomItems.push(randomItem);
         }
     }
-    return randomItems;
+    return randomItems; 
   };
 
-  const randomItems = getRandomMenu(menu, 5);
-  console.log(randomItems);
-  
-  export default randomItems;
+  export { getRandomMenu, menu };

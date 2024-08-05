@@ -1,12 +1,20 @@
-import React from 'react';
+import React, { useState, useEffect} from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 import '../assets/styles/RestaurantDetail.css';
-import  randomItems from '../../utils/menuItems.js';
+import { getRandomMenu, menu } from '../../utils/menuItems.js';
 
 const RestaurantDetail = () => {
   const { id } = useParams();
   const location = useLocation();
   const restaurant = location.state.restaurant;
+  const [randomItems, setRandomItems] = useState([])
+
+  useEffect(() => {
+    //Calling getRandomMenu to dynamically render menu items
+    const items = getRandomMenu(menu, 5);
+    setRandomItems(items);
+  }, []);
+
 
   return (
     <div className='result-container'>
