@@ -2,7 +2,7 @@
   margin-bottom: 20px;
 }
 
-.restaurant-search {
+.restaurant-search{
     padding: 20px;
     max-width: 1200px;
     margin-top: 50px;
@@ -53,9 +53,15 @@
   }
   
   .restaurant-image {
-    width: 5%;
-    height: 180px;
-    object-fit: cover;
+    height: 100px;
+    width: 70%;
+    text-align: center;
+    object-fit:cover;
+    justify-content: space-around;
+    justify-items:flex-end;
+    border-radius: 4%;
+    margin:auto 7px auto 7px;
+    padding: 1.5% 6%;
   }
   
   .restaurant-info {
@@ -63,9 +69,10 @@
   }
   
   .restaurant-name {
-    font-size: 18px;
+    font-size: 16px;
     font-weight: bold;
     margin-bottom: 10px;
+    justify-content: space-around;
   }
   
   .restaurant-address,
@@ -73,4 +80,41 @@
     font-size: 14px;
     margin-bottom: 5px;
   }
- 
+ div.restaurant-search{
+  justify-content: center;
+  position: absolute;
+  margin-top: 30px;
+  margin-bottom: 600px;
+ }
+ p.non-found{
+  display: flex;
+  justify-content: center;
+ }
+ div.results-container{
+  justify-content: center;
+  position: absolute;
+  display:table-column;
+  margin-left: 20px;
+  margin-right: 40px;
+ }
+img.restaurant-image{
+  margin-left: 362px;
+  margin-right: 600px;
+ justify-content:stretch;
+  width:173px;
+  height:5.2%;
+  object-fit:fill;
+}
+div.restaurant-card{
+  justify-content: space-around;
+  display: contents;
+  flex-direction: column;
+  flex: none;
+}
+h1.title{
+  margin-top:180px;
+  margin-bottom: 30px;
+}
+@media screen 
+and (max-width: 992px) and (min-width: 300px){
+}

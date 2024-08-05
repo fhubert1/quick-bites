@@ -9,3 +9,8 @@
     /*fonts*/
     font-family: 'Bungee Shade', system-ui;
 }
+
+    @media screen 
+     and (max-width: 992px) and (min-width: 300px){
+    }
+  

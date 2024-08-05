@@ -46,7 +46,7 @@ const SearchRestaurants = () => {
       
       <div className="restaurant-search">
         <div className='search-container'>
-        <h1>Find Restaurants</h1>
+        <h1 className='title'>Find Restaurants</h1>
         <form onSubmit={handleSearch} className="search-form">
           <input
             type="text"
@@ -85,7 +85,7 @@ const SearchRestaurants = () => {
               </div>
             ))
           ) : (
-            <p>No restaurants found.</p>
+            <p className='non-found'>No restaurants found!</p>
           )}
         </div>
       </div>

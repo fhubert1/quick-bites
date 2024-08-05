@@ -1,6 +1,5 @@
 import React from 'react';
 import '../assets/styles/Home.css';
-import quickbitesGif from '../assets/icon/quickbitesGif.gif';
 import SearchRestaurants from '../components/Search/Search'; 
 
 const Home = () => (
@@ -13,4 +12,3 @@ const Home = () => (
 export default Home;
 
 
-//<img src={quickbitesGif} alt="Central GIF" className="centeredGif" />

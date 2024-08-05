@@ -29,4 +29,6 @@ img{
  margin-top: 3.5%;
  margin-bottom: 10%;
 }
-
+@media screen 
+and (max-width: 992px) and (min-width: 300px){
+}
