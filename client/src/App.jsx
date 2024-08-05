@@ -1,7 +1,7 @@
 //import React from "react";
 import styles from "../src/App.module.css";
 import Navbar from "./components/Navbar/Navbar";
-import Cart from './components/Cart';
+import Cart from './components/Cart/Cart';
 import { Outlet } from "react-router-dom"
 import { 
   ApolloProvider,
