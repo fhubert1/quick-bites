@@ -10,6 +10,7 @@ import Signup from "./pages/Signup";
 import Login from "./pages/Login";
 import Home from "./pages/Home";
 import NotFound from "./pages/NotFound.jsx";
+import RestaurantDetail from "./pages/RestaurantDetail.jsx";
 
 
 const router = createBrowserRouter([
@@ -33,6 +34,9 @@ const router = createBrowserRouter([
       }, {
         path: '/login',
         element: <Login/>
+      }, {
+        path: '/restaurant/:id',
+        element: <RestaurantDetail />
       }, 
     ],
   },
