@@ -4,17 +4,15 @@ import { reducer } from './reducers';
 const StoreContext = createContext();
 const { Provider } = StoreContext;
 
-export function useProductReducer(initialState) {
+export function useItemReducer(initialState) {
   return useReducer(reducer, initialState);
 }
 
 const StoreProvider = ({ value = [], ...props }) => {
-  const [state, dispatch] = useDishReducer({
-    dish: [],
+  const [state, dispatch] = useItemReducer({
+    items: [],
     cart: [],
     cartOpen: false,
-    categories: [],
-    currentCategory: '',
   });
 
   return <Provider value={[state, dispatch]} {...props} />;
