@@ -1,8 +1,9 @@
-//import React from "react";
+import React, { useState } from "react";
 import styles from "../src/App.module.css";
 import Navbar from "./components/Navbar/Navbar";
-import Cart from './components/Cart/Cart';
-import { Outlet } from "react-router-dom"
+// import Cart from './components/Cart/Cart';
+import { Outlet } from "react-router-dom";
+import LoginPopup from "./components/LoginPopup/LoginPopup";
 import { 
   ApolloProvider,
   InMemoryCache,
@@ -15,8 +16,6 @@ import { StoreProvider } from "../utils/GlobalState";
 const httpLink = createHttpLink({
   uri: '/graphql',
 });
-
-
 
 const authLink = setContext((_, { headers }) => {
   const token = localStorage.getItem('id_token');
@@ -34,16 +33,21 @@ const client = new ApolloClient({
 });
 
 function App() {
+  const [showLogin, setShowLogin] = useState(false);
+
   return (
-    <ApolloProvider client={client}>
-    <div className={styles.App}>
-      <StoreProvider>
-        <Navbar />
-        <Cart/>
-        <Outlet />
-      </StoreProvider>
-    </div>
-    </ApolloProvider>
+    <>
+      {showLogin && <LoginPopup setShowLogin={setShowLogin} />}
+      <ApolloProvider client={client}>
+        <div className={styles.App}>
+          <StoreProvider>
+            <Navbar setShowLogin={setShowLogin} />
+            {/* <Cart /> */}
+            <Outlet />
+          </StoreProvider>
+        </div>
+      </ApolloProvider>
+    </>
   );
 }
 
