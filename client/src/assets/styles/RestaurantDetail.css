@@ -3,8 +3,6 @@
     max-width: 500px; 
     margin: auto;
   }
-
-
 .restaurant-image {
     max-width: 100%; 
     height: auto;    
@@ -12,4 +10,68 @@
     object-fit: cover; 
   }
 
-  
+  div.result-container{
+    display: contents;
+    justify-content: center;
+  }
+  img.menu-tab{
+  /* justify-content: center; */
+  display: block;
+    width: 400px;
+    height: 198px;
+    background-color: whitesmoke;
+    padding: 1%;
+    border-radius: 25px;
+    position:absolute;
+    left: 540px;
+  }
+  div.card-body{
+    display:contents;
+  }
+  h2.title{
+    display: contents;
+    margin-top: 3%;
+    /* margin-top: 35px; */
+  }
+  div.cart-closed{
+    display: flex;
+    margin-top: 5px;
+    margin-bottom: 20px;
+    margin-left: 21px;
+    border: 3px solid black;
+    cursor:pointer;
+    display:inline-block;
+    padding: 8px;
+    background-color:whitesmoke;
+  }
+  ul.random-dish{
+    margin-top: 30px;
+    justify-content: space-between;
+  }
+ h1.restaurant-name{
+  font-size:25px;
+  font-family:Georgia, 'Times New Roman', Times, serif;
+ }
+ p.location{
+  font-size:25px;
+  font-family:Georgia, 'Times New Roman', Times, serif;
+  margin-bottom: 1%;
+ }
+ p.rating{
+  font-size:25px;
+  font-family:Georgia, 'Times New Roman', Times, serif;
+  color: crimson;
+  margin-bottom: 3%;
+ }
+ p.dish{
+  font-size:25px;
+  font-family:Georgia, 'Times New Roman', Times, serif;
+  margin-top: 30px;
+ }
+ p.dish-description{
+  font-size:22px;
+  font-family:Georgia, 'Times New Roman', Times, serif;
+ }
+ button{
+  font-size: 20px;
+ }
