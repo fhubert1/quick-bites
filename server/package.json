@@ -13,13 +13,14 @@
     "license": "ISC",
     "dependencies": {
         "@apollo/server": "^4.7.2",
+        "@stripe/stripe-js": "^4.1.0",
         "bcrypt": "^4.0.1",
         "dotenv": "^16.3.1",
         "express": "^4.17.2",
         "graphql": "^16.6.0",
         "jsonwebtoken": "^8.5.1",
         "mongoose": "^8.0.0",
-        "stripe": "^8.67.0"
+        "stripe": "^8.222.0"
     },
     "devDependencies": {
         "nodemon": "^2.0.2"

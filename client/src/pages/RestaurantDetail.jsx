@@ -58,21 +58,21 @@ const RestaurantDetail = () => {
   return (
     <div className='result-container'>
       <div className=' card-body'>
-      <img src={restaurant.image_url} alt={restaurant.name} className='restaurant-image'/>
+      <img src={restaurant.image_url} alt={restaurant.name} className='menu-tab'/>
       
-      <h1>{restaurant.name}</h1>
-      <p>{restaurant.location}</p>
-      <p>Rating: {restaurant.rating}</p>
+      <h1 className='restaurant-name'>{restaurant.name}</h1>
+      <p className='location'>{restaurant.location}</p>
+      <p className='rating'>Rating: {restaurant.rating}</p>
       </div>
-      <h2>Menu</h2>
-      <ul>
+      <h2 className='title'>Menu</h2>
+      <ul className='random-dish'>
         {randomDishes.map((dish, index) => (
           <li key={index}>
-            <p><strong>{dish.name}</strong> - ${dish.price}</p>
-            <p>{dish.description}</p>
+            <p className='dish'><strong>{dish.name}</strong> - ${dish.price}</p>
+            <p className='dish-description'>{dish.description}</p>
           <button onClick={() => handleAddToCart(dish)}>Add item to cart</button>
           <button
-              disabled={!cart.find((p) => p._id === dish._id)}//check on this
+              disabled={!cart.find((p) => p.id === dish.id)}//check on this
               onClick={() => removeFromCart(dish)}> Remove from Cart
             </button>
           </li>
