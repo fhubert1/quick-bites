@@ -21,3 +21,14 @@ export const ADD_USER = gql`
     }
   }
 `;
+
+export const ADD_DISH = gql`
+  mutation AddDish($name: String!, $price: Float!, $description: String, $restaurantId: ID!) {
+    addDish(name: $name, price: $price, description: $description, restaurantId: $restaurantId) {
+      id
+      name
+      price
+      description
+    }
+  }
+`;

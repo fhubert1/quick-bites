@@ -43,7 +43,6 @@ export const QUERY_ALL_DISHES = gql`
       image
       category {
         name
-      }
     }
   }
 }`;
