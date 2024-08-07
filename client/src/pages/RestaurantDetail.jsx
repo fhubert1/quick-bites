@@ -3,33 +3,54 @@ import { useLocation, useParams } from 'react-router-dom';
 import '../assets/styles/RestaurantDetail.css';
 import { getRandomMenu, menu } from '../../utils/menuItems.js';
 import { useStoreContext } from '../../utils/GlobalState.jsx';
-import { ADD_TO_CART, REMOVE_FROM_CART } from '../../utils/actions.js';
+import { REMOVE_FROM_CART, ADD_TO_CART } from '../../utils/actions.js';
+import { useMutation } from '@apollo/client';
+import { ADD_DISH } from '../../utils/mutations';
 
 const RestaurantDetail = () => {
   const { id } = useParams();
   const location = useLocation();
   const restaurant = location.state.restaurant;
-  const [randomItems, setRandomItems] = useState([]);
+  const [randomDishes, setRandomDishes] = useState([]);
   const [state, dispatch] = useStoreContext();
-  const cart = state;
+  const [addDish] = useMutation(ADD_DISH);
+  const cart = state.cart || [];
 
   useEffect(() => {
-    //Calling getRandomMenu to dynamically render menu items
-    const items = getRandomMenu(menu, 5);
-    setRandomItems(items);
+    console.log("Restaurant Object:", restaurant);
+    console.log('Restaurant ID:', restaurant.id);
+
+    //Calling getRandomMenu to dynamically render menu dishes
+    const dishes = getRandomMenu(menu, 5);
+    setRandomDishes(dishes);
+    console.log("Random Dishes:", dishes);
   }, []);
 
-  const addToCart = (item) => {
-    dispatch({
-      type: ADD_TO_CART,
-      item: { ...item, _id: `${restaurant.name}-${item.name}` }
-    });
+  const handleAddToCart = async (dish) => {
+    console.log("Dish Object:", dish);
+    try {
+      await addDish({
+        variables: { 
+          name: dish.name, 
+          description: dish.description, 
+          price: dish.price, 
+          restaurantId: restaurant.id, //not sure this is right
+        }
+      });
+    
+      dispatch({
+        type: ADD_TO_CART,
+        dish: { ...dish, id: `${restaurant.name}-${dish.name}` }
+      });
+    } catch (error) {
+      console.error("Error adding item to cart:", error);
+    }
   };
 
-  const removeFromCart = (item) => {
+  const removeFromCart = (dish) => {
     dispatch({
       type: REMOVE_FROM_CART,
-      _id: `${restaurant.name}-${item.name}`
+      _id: `${restaurant.name}-${dish.name}`
     });
   };
 
@@ -45,12 +66,14 @@ const RestaurantDetail = () => {
       </div>
       <h2>Menu</h2>
       <ul>
-        {randomItems.map((item, index) => (
-          <li key={index}>{item.name} - {item.price}
-          <button onClick={addToCart}>Add item to cart</button>
+        {randomDishes.map((dish, index) => (
+          <li key={index}>
+            <p><strong>{dish.name}</strong> - ${dish.price}</p>
+            <p>{dish.description}</p>
+          <button onClick={() => handleAddToCart(dish)}>Add item to cart</button>
           <button
-              disabled={!cart.find((p) => p._id === item._id)}//check on this
-              onClick={removeFromCart}> Remove from Cart
+              disabled={!cart.find((p) => p._id === dish._id)}//check on this
+              onClick={() => removeFromCart(dish)}> Remove from Cart
             </button>
           </li>
         ))}

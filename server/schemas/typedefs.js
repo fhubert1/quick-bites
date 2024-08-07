@@ -52,7 +52,7 @@ const typeDefs = `
   type Dish {
     id: ID!
     name: String!
-    description: String!
+    description: String
     price: Float!
     restaurant: Restaurant
     reviews: [Review] 
@@ -105,7 +105,7 @@ const typeDefs = `
     addUser(name: String, email: String!, userName: String!, password: String!, address: String, phone: String): Auth
     updateUser(name: String!, email: String!, userName: String!, password: String!, address: String, phone: String): User
     addRestaurant(name: String!, address: String!, phone: String!): Restaurant
-    addDish(name: String!, description: String!, price: Float!, restaurantId: ID!): Dish
+    addDish(name: String, description: String, price: Float!, restaurantId: ID): Dish
     addOrder(userId: ID!, restaurantId: ID!, dishes: [OrderDishInput]!, totalPrice: Float!, status: String!): Order
     addReview(userId: ID!, restaurantId: ID!, dishId: ID!, rating: Int!, comment: String): Review
     login(userName: String!, password: String!): Auth

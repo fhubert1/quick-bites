@@ -5,7 +5,7 @@ const dishSchema = new Schema({
     name: String,
     description: String,
     price: Number,
-    restaurant: { type: Schema.Types.ObjectId, ref: 'Restaurant' },
+    restaurantId: String,//changed to allow storge of Yelp Id
     reviews: [{ type: Schema.Types.ObjectId, ref: 'Review' }],
   });
 

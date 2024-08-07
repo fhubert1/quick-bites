@@ -254,7 +254,12 @@ const resolvers = {
         },
         addDish: async (_, { name, description, price, restaurantId }) => {
             try {
-                const dish = new Dish({ name, description, price, restaurant: ObjectId(restaurantId) });
+                const dish = new Dish({ 
+                    name, 
+                    description, 
+                    price, 
+                    restaurantId, 
+                }); 
                 return await dish.save();
             } catch (err) {
                 console.error(err);
