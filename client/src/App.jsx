@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styles from "../src/App.module.css";
 import Navbar from "./components/Navbar/Navbar";
-// import Cart from './components/Cart/Cart';
+import Cart from './components/Cart/Cart';
 import { Outlet } from "react-router-dom";
 import LoginPopup from "./components/LoginPopup/LoginPopup";
 import { 
@@ -42,7 +42,7 @@ function App() {
         <div className={styles.App}>
           <StoreProvider>
             <Navbar setShowLogin={setShowLogin} />
-            {/* <Cart /> */}
+            <Cart />
             <Outlet />
           </StoreProvider>
         </div>

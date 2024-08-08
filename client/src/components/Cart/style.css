@@ -29,3 +29,7 @@
 .cart-items-item .cross{
   cursor: pointer;
 }
+
+@media screen 
+and (max-width: 992px) and (min-width: 300px){
+}
