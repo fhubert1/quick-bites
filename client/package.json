@@ -6,7 +6,6 @@
   "scripts": {
     "watch": "nodemon index.js",
     "dev": "vite",
-    "prebuild": "npm install", 
     "build": "vite build",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
