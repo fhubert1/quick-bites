@@ -1,11 +1,7 @@
 import React, { useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { LOGIN_USER, ADD_USER } from '../../../utils/mutations';
-<<<<<<< HEAD
-import Auth from '../../auth';
-=======
 import Auth from '../../../utils/auth';
->>>>>>> 126083b8a281178f73db5fee438b97f14f3d2db9
 import './LoginPopup.css'; 
 
 const LoginPopup = ({ setShowLogin }) => {

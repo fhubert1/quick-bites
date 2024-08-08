@@ -29,6 +29,8 @@ const startApolloServer = async () => {
          context: authMiddleware
      }));
 
+     app.use(express.static('client'));
+
     db.once("open", async() => {
         console.log("Connected to MongoDB");
 

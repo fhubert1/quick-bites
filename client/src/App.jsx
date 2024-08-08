@@ -38,6 +38,7 @@ function App() {
         <div className={styles.App}>
           <StoreProvider>
             <Navbar setShowLogin={setShowLogin} />
+            <Cart/>
             <Outlet />
           </StoreProvider>
         </div>
