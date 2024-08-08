@@ -4,15 +4,15 @@ import { REMOVE_FROM_CART, UPDATE_CART_QUANTITY } from '../../../utils/actions';
 import { idbPromise } from '../../../utils/helper';
 //import './CartItem.css';
 
-const CartItem = ({ item }) => {
+const CartItem = ({ dish }) => {
   const [, dispatch] = useStoreContext();
 
-  const removeFromCart = (item) => {
+  const removeFromCart = (dish) => {
     dispatch({
       type: REMOVE_FROM_CART,
-      _id: item._id
+      id: dish.id
     });
-    idbPromise('cart', 'delete', { ...item });
+    idbPromise('cart', 'delete', { ...dish });
   };
 
   const onChange = (e) => {
@@ -20,16 +20,16 @@ const CartItem = ({ item }) => {
     if (value === '0') {
       dispatch({
         type: REMOVE_FROM_CART,
-        _id: item._id
+        id: dish.id
       });
-      idbPromise('cart', 'delete', { ...item });
+      idbPromise('cart', 'delete', { ...dish });
     } else {
       dispatch({
         type: UPDATE_CART_QUANTITY,
-        _id: item._id,
+        id: dish.id,
         purchaseQuantity: parseInt(value)
       });
-      idbPromise('cart', 'put', { ...item, purchaseQuantity: parseInt(value) });
+      idbPromise('cart', 'put', { ...dish, purchaseQuantity: parseInt(value) });
     }
   };
 
@@ -37,25 +37,25 @@ const CartItem = ({ item }) => {
     <div className="flex-row">
       <div>
         <img
-          src={`/images/${item.image}`}
-          alt={item.name}
+          src={`/images/${dish.image}`}
+          alt={dish.name}
           className="cart-item-image"
         />
       </div>
       <div>
-        <div>{item.name} - ${item.price}</div>
+        <div>{dish.name} - ${dish.price}</div>
         <div>
           <span>Qty:</span>
           <input
             type="number"
             placeholder="1"
-            value={item.purchaseQuantity}
+            value={dish.purchaseQuantity}
             onChange={onChange}
           />
           <span
             role="img"
             aria-label="remove-item"
-            onClick={() => removeFromCart(item)}
+            onClick={() => removeFromCart(dish)}
             className="remove-item"
           >
             🗑️

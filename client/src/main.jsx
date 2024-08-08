@@ -11,6 +11,7 @@ import Contact from "./pages/Contact";
 import Home from "./pages/Home";
 import NotFound from "./pages/NotFound.jsx";
 import RestaurantDetail from "./pages/RestaurantDetail.jsx";
+import Cart from './components/Cart/Cart.jsx';
 
 
 const router = createBrowserRouter([
@@ -32,7 +33,10 @@ const router = createBrowserRouter([
       {
         path: '/restaurant/:id',
         element: <RestaurantDetail />
-      }, 
+      }, {
+        path: '/cart',
+        element: <Cart />
+      }
     ],
   },
 ]);

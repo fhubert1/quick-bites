@@ -26,7 +26,8 @@ const Cart = () => {
   useEffect(() => {
     async function getCart() {
       const cart = await idbPromise('cart', 'get');
-      dispatch({ type: ADD_MULTIPLE_TO_CART, items: [...cart] });
+      console.log('Loaded cart from IndexedDB:', cart);
+      dispatch({ type: ADD_MULTIPLE_TO_CART, dishes: [...cart] });
     }
 
     if (!state.cart.length) {
@@ -40,8 +41,8 @@ const Cart = () => {
 
   function calculateTotal() {
     let sum = 0;
-    state.cart.forEach((item) => {
-      sum += item.price * item.purchaseQuantity;
+    state.cart.forEach((dish) => {
+      sum += dish.price * dish.purchaseQuantity;
     });
     return sum.toFixed(2);
   }
@@ -53,6 +54,9 @@ const Cart = () => {
       },
     });
   }
+
+
+  console.log('Current cart state:', state.cart);
 
   if (!state.cartOpen) {
     return (
@@ -72,8 +76,8 @@ const Cart = () => {
       <h2>Shopping Cart</h2>
       {state.cart.length ? (
         <div>
-          {state.cart.map((item) => (
-            <CartItem key={item._id} item={item} />
+          {state.cart.map((dish) => (
+            <CartItem key={dish.id} dish={dish} />
           ))}
 
           <div className="flex-row space-between">

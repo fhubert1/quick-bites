@@ -36,13 +36,13 @@ function App() {
   const [showLogin, setShowLogin] = useState(false);
 
   return (
+   
     <>
       {showLogin && <LoginPopup setShowLogin={setShowLogin} />}
       <ApolloProvider client={client}>
         <div className={styles.App}>
           <StoreProvider>
             <Navbar setShowLogin={setShowLogin} />
-            {/* <Cart /> */}
             <Outlet />
           </StoreProvider>
         </div>
