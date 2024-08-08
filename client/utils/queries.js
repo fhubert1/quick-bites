@@ -48,8 +48,8 @@ export const QUERY_ALL_DISHES = gql`
 }`;
 
 export const QUERY_CHECKOUT = gql`
-  query getCheckout {
-    checkout {
+  query getCheckout($dishes: [DishInput]) {
+    checkout(dishes: $dishes) {
       session
     }
   }

@@ -13,12 +13,16 @@ export function pluralize(name, count) {
   
       request.onupgradeneeded = function (e) {
         const db = request.result;
-        db.createObjectStore('products', { keyPath: '_id' });
-        db.createObjectStore('cart', { keyPath: '_id' });
+        if (!db.objectStoreNames.contains('dish')) {
+          db.createObjectStore('dish', { keyPath: 'id' });
+        }
+        if (!db.objectStoreNames.contains('cart')) {
+          db.createObjectStore('cart', { keyPath: 'id' });
+        }
       };
   
       request.onerror = function (e) {
-        console.log('There was an error');
+        console.log('Error', e);
         reject(e);
       };
   
@@ -34,6 +38,16 @@ export function pluralize(name, count) {
   
         switch (method) {
           case 'put':
+            console.log('Putting object in IndexedDB:', object);
+          console.log('Object keys:', Object.keys(object));
+          console.log('Object ID:', object.id);
+          if (typeof object.id !== 'string') {
+            console.log('Converting ID to string');
+            object.id = String(object.id);
+            console.log('Converted ID:', object.id);
+          }
+          
+
             store.put(object);
             resolve(object);
             break;
