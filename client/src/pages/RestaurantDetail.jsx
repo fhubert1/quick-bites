@@ -3,9 +3,12 @@ import { useLocation, useParams } from 'react-router-dom';
 import '../assets/styles/RestaurantDetail.css';
 import { getRandomMenu, menu } from '../../utils/menuItems.js';
 import { useStoreContext } from '../../utils/GlobalState.jsx';
-import { REMOVE_FROM_CART, ADD_TO_CART } from '../../utils/actions.js';
+import { REMOVE_FROM_CART, ADD_TO_CART, UPDATE_CART_QUANTITY } from '../../utils/actions.js';
 import { useMutation } from '@apollo/client';
 import { ADD_DISH } from '../../utils/mutations';
+import { idbPromise } from '../../utils/helper.js';
+
+
 
 const RestaurantDetail = () => {
   const { id } = useParams();
@@ -34,24 +37,45 @@ const RestaurantDetail = () => {
           name: dish.name, 
           description: dish.description, 
           price: dish.price, 
-          restaurantId: restaurant.id, //not sure this is right
+          restaurantId: restaurant.id, 
         }
       });
-    
+     
+    const itemInCart = cart.find((cartItem) => cartItem.id == id);
+    if (itemInCart) {
       dispatch({
-        type: ADD_TO_CART,
-        dish: { ...dish, id: `${restaurant.name}-${dish.name}` }
+        type: UPDATE_CART_QUANTITY,
+        id: id,
+        purchaseQuantity: parseInt(itemInCart.purchaseQuantity) + 1,
       });
+    
+    idbPromise('cart', 'put', {
+      ...itemInCart,
+      purchaseQuantity: parseInt(itemInCart.purchaseQuantity) + 1,
+    });
+  } else {
+    const newDish = { ...dish, purchaseQuantity: 1};
+    dispatch({
+      type: ADD_TO_CART,
+      dish: newDish,
+    });
+    console.log("Adding to IndexedDB:", newDish);
+    idbPromise('cart', 'put', newDish);
+      }
+       // Show alert to the user
+      window.alert(`${dish.name} has been added to your cart!`);
     } catch (error) {
       console.error("Error adding item to cart:", error);
     }
   };
-
+console.log("cart1:", cart)
   const removeFromCart = (dish) => {
     dispatch({
       type: REMOVE_FROM_CART,
-      _id: `${restaurant.name}-${dish.name}`
+      dish: dish.id,
     });
+
+    idbPromise('cart', 'delete', { ...dish});
   };
 
 
