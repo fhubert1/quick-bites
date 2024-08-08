@@ -1,0 +1,40 @@
+/* Style for the cart item container */
+.flex-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  
+  
+  /* Style for the item details */
+  .flex-row div {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* Style for quantity input */
+  input[type="number"] {
+    width: 50px;
+    margin-left: 5px;
+    text-align: center;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 2px 4px;
+  }
+  
+  /* Style for remove item icon */
+  .remove-item {
+    cursor: pointer;
+    font-size: 1.2rem;
+    color: #ff4d4d; /* Red color for delete icon */
+    margin-left: 10px;
+    transition: color 0.3s ease;
+  }
+  
+  .remove-item:hover {
+    color: #ff1a1a; /* Darker red on hover */
+  }
+  

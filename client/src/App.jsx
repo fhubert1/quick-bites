@@ -12,9 +12,11 @@ import {
 } from "@apollo/client";
 import { setContext } from '@apollo/client/link/context';
 import { StoreProvider } from "../utils/GlobalState";
+
 const httpLink = createHttpLink({
   uri: '/graphql',
 });
+
 const authLink = setContext((_, { headers }) => {
   const token = localStorage.getItem('id_token');
   return {
@@ -24,21 +26,28 @@ const authLink = setContext((_, { headers }) => {
     },
   };
 });
+
 const client = new ApolloClient({
   link: authLink.concat(httpLink),
   cache: new InMemoryCache(),
 });
+
 function App() {
   const [showLogin, setShowLogin] = useState(false);
+  const [cartOpen, setCartOpen] = useState(false);
+
+  const toggleCart = () => {
+    setCartOpen(!cartOpen);
+  };
+
   return (
-   
     <>
       {showLogin && <LoginPopup setShowLogin={setShowLogin} />}
       <ApolloProvider client={client}>
         <div className={styles.App}>
           <StoreProvider>
-            <Navbar setShowLogin={setShowLogin} />
-            <Cart/>
+            <Navbar setShowLogin={setShowLogin} toggleCart={toggleCart} />
+            {cartOpen && <Cart />}
             <Outlet />
           </StoreProvider>
         </div>
@@ -46,4 +55,5 @@ function App() {
     </>
   );
 }
+
 export default App;

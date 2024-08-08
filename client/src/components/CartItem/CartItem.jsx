@@ -2,7 +2,7 @@ import React from 'react';
 import { useStoreContext } from '../../../utils/GlobalState';
 import { REMOVE_FROM_CART, UPDATE_CART_QUANTITY } from '../../../utils/actions';
 import { idbPromise } from '../../../utils/helper';
-//import './CartItem.css';
+import './CartItem.css'; 
 
 const CartItem = ({ dish }) => {
   const [, dispatch] = useStoreContext();
@@ -35,13 +35,7 @@ const CartItem = ({ dish }) => {
 
   return (
     <div className="flex-row">
-      <div>
-        <img
-          src={`/images/${dish.image}`}
-          alt={dish.name}
-          className="cart-item-image"
-        />
-      </div>
+      
       <div>
         <div>{dish.name} - ${dish.price}</div>
         <div>

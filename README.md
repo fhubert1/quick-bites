@@ -38,6 +38,7 @@ Welcome to the Food Delivery App, a modern and intuitive web application built u
 - **User Authentication**: Secure login and registration for a personalized experience.
 - **Secure Payment**: Checkout your cart using a secure payment method with Stripe.
 - **Responsive Design**: Optimized for both desktop and mobile devices to ensure a smooth user experience.
+- **PWA feature: to make the app installable and  works offline or on low-quality networks thanks to service worker caching.
 
 ## Installation Guide
 - `git clone https://github.com/fhubert1/quick-bites`
