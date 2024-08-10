@@ -9,7 +9,7 @@ import { useStoreContext } from '../../../utils/GlobalState';
 import { TOGGLE_CART, ADD_MULTIPLE_TO_CART } from '../../../utils/actions';
 import './style.css';
 
-const stripePromise = loadStripe('pk_test_TYooMQauvdEDq54NiTphI7jx');
+const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
 
 const Cart = () => {
   const [state, dispatch] = useStoreContext();
@@ -17,7 +17,9 @@ const Cart = () => {
 
   useEffect(() => {
     if (data) {
+      console.log('Checkout session data received:', data);
       stripePromise.then((res) => {
+        console.log('Checkout session data received:', data);
         res.redirectToCheckout({ sessionId: data.checkout.session });
       });
     }
@@ -48,13 +50,22 @@ const Cart = () => {
   }
 
   function submitCheckout() {
+    console.log('Submitting checkout with products:', JSON.stringify(state.cart, null, 2));
+    // Transform the cart data to match the expected input format
+  const products = state.cart.map(item => ({
+    name: item.name, 
+    quantity: item.purchaseQuantity, 
+    price: item.price, 
+  }));
+
+  console.log('Formatted checkout products:', JSON.stringify(products, null, 2));
     getCheckout({
-      variables: { products: [...state.cart] },
+      variables: { dish: products},
     });
   }
 
   if (!state.cartOpen) {
-    return null; // Return null if the cart is not open
+    return null; 
   }
 
   return (

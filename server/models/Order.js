@@ -5,8 +5,9 @@ const orderSchema = new Schema({
     user: { type: Schema.Types.ObjectId, ref: 'User' },
     restaurant: { type: Schema.Types.ObjectId, ref: 'Restaurant' },
     dishes: [{
-      dish: { type: Schema.Types.ObjectId, ref: 'Dish' },
-      quantity: Number,
+      name: { type: String}, 
+      quantity: { type: Number },
+      price: { type: Number } 
     }],
     totalPrice: Number,
     status: String,

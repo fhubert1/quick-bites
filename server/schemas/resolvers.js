@@ -3,7 +3,7 @@ const { ObjectId } = require('mongodb');
 const bcrypt = require('bcrypt');
 const { User, Restaurant, Dish, Order, Review } = require('../models');
 const { signToken, AuthenticationError } = require('../utils/auth');
-const stripe = require('stripe') // Load Stripe with the secret key from .env
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY) // Load Stripe with the secret key from .env
 
 
 const resolvers = {
@@ -103,14 +103,15 @@ const resolvers = {
             }
         },
         checkout: async (parent, { dish }, context) => {
+            console.log("Received dish data:", dish);
             try {
-                const url = new URL(req.headers.referer).origin;
+                const url = new URL(context.headers.referer).origin;
 
                 // Build line_items array for Stripe
-                const line_items = await Promise.all(dishes.map(async (dish) => {
-                    const product = await Dish.findById(dish.dishId);
+                const line_items = await Promise.all(dish.map(async (dish) => {
+                    const product = await Dish.findOne({name: dish.name});
                     if (!product) {
-                        throw new Error(`Dish not found: ${dish.dishId}`);
+                        throw new Error(`Dish not found: ${dish.name}`);
                     }
                     return {
                         price_data: {
@@ -120,7 +121,7 @@ const resolvers = {
                                 description: product.description,
                                 images: [`${url}/images/${product.image}`],
                             },
-                            unit_amount: product.price * 100,
+                            unit_amount: Math.round(product.price) * 100,
                         },
                         quantity: dish.quantity,
                     };
@@ -266,20 +267,25 @@ const resolvers = {
                 throw new Error('Error - failed to add dish');
             }
         },
-        addOrder: async (_, { userId, restaurantId, dishes }, { user }) => {
+        addOrder: async (_, {dishes, totalPrice }) => {
             try {
-                if (!user || user._id !== userId) {
-                    throw new AuthenticationError('You are not authorized to create an order for this user.');
-                }
+                // if (!user || user._id !== userId) {
+                //     throw new AuthenticationError('You are not authorized to create an order for this user.');
+                // }
 
+                
+                console.log("Incoming dishes data:", dishes);
                 const order = new Order({
-                    user: ObjectId(userId),
-                    restaurant: ObjectId(restaurantId),
-                    dishes: dishes.map(dish => ({ dish: ObjectId(dish.dishId), quantity: dish.quantity })),
-                    totalPrice: dishes.reduce((total, dish) => total + dish.price * dish.quantity, 0),
+                    dishes: dishes.map(dishInput => ({
+                      name: dishInput.name,
+                      quantity: dishInput.quantity,
+                      price: dishInput.price
+                    })),
+                    totalPrice,
                     status: 'Pending',
                     orderDate: new Date().toISOString(),
-                });
+                  })
+                  console.log("order:", order)
                 return await order.save();
 
             } catch (err) {
