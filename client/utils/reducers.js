@@ -21,7 +21,7 @@ export const reducer = (state, action) => {
                     cartOpen: true,
                     cart: state.cart.map(dish => {
                         if (action.id === dish.id) {
-                            dish.purchaseQuatity = action.purchaseQuatity
+                            dish.purchaseQuantity = action.purchaseQuatity
                         }
                         return dish
                     })

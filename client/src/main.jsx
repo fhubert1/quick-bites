@@ -15,6 +15,7 @@ import Home from "./pages/Home";
 import NotFound from "./pages/NotFound.jsx";
 import RestaurantDetail from "./pages/RestaurantDetail.jsx";
 import Cart from './components/Cart/Cart.jsx';
+import Success from './pages/Success.jsx';
 
 // Apollo Client setup
 const httpLink = createHttpLink({
@@ -60,6 +61,9 @@ const router = createBrowserRouter([
       {
         path: '/cart',
         element: <Cart />
+      }, {
+        path: '/success',
+        element: <Success />
       }
     ],
   },

@@ -51,26 +51,22 @@ const typeDefs = `
 
   type Dish {
     id: ID!
-    name: String!
+    name: String
     description: String
-    price: Float!
+    price: Float
     restaurant: Restaurant
     reviews: [Review] 
+    quantity: Int
   }
 
   type Order {
-    id: ID!
-    user: User!
-    restaurant: Restaurant!
-    dishes: [OrderDish]
+    id: ID
+    user: User
+    restaurant: Restaurant
+    dishes: [Dish]
     totalPrice: Float!
     status: String!
     orderDate: String!
-  }
-
-  type OrderDish {
-    dish: Dish!
-    quantity: Int!
   }
 
   type Review {
@@ -98,7 +94,7 @@ const typeDefs = `
     order(id: ID!): Order
     reviews: [Review]
     review(id: ID!): Review
-    checkout(dish: [OrderDishInput]!): Checkout    
+    checkout(dish: [DishInput]!): Checkout    
   }
 
   type Mutation {
@@ -106,15 +102,16 @@ const typeDefs = `
     updateUser(name: String!, email: String!, userName: String!, password: String!, address: String, phone: String): User
     addRestaurant(name: String!, address: String!, phone: String!): Restaurant
     addDish(name: String, description: String, price: Float!, restaurantId: ID): Dish
-    addOrder(userId: ID!, restaurantId: ID!, dishes: [OrderDishInput]!, totalPrice: Float!, status: String!): Order
+    addOrder(dishes: [DishInput!]!, totalPrice: Float!): Order
     addReview(userId: ID!, restaurantId: ID!, dishId: ID!, rating: Int!, comment: String): Review
     login(userName: String!, password: String!): Auth
   }
 
-  input OrderDishInput {
-    dishId: ID!
-    quantity: Int!
-  }
+ input DishInput {
+  name: String!
+  quantity: Int!
+  price: Float!
+}
 `;
 
 module.exports = typeDefs;

@@ -32,3 +32,19 @@ export const ADD_DISH = gql`
     }
   }
 `;
+
+export const ADD_ORDER = gql`
+mutation AddOrder($dishes: [DishInput!]!, $totalPrice: Float!) {
+  addOrder(dishes: $dishes, totalPrice: $totalPrice) {
+    id
+    dishes {
+      name
+      quantity
+      price
+    }
+    totalPrice
+    status
+    orderDate
+  }
+}
+`;
