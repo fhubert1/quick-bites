@@ -42,6 +42,13 @@ const startApolloServer = async () => {
         app.get('*', (req, res) => {
             res.sendFile(path.join(__dirname, '../client/dist/index.html'));
         });
+    } else {
+        // development mode, serve up dev build
+        app.use(express.static(path.join(__dirname, '../client/public')));
+
+        app.get('*', (req, res) => {
+            res.sendFile(path.join(__dirname, '../client/public/index.html'));
+        });
     }
 
     db.once("open", async () => {
