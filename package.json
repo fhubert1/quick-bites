@@ -9,7 +9,7 @@
     "develop": "npm run predevelop && concurrently \"cd server && npm run watch\" \"cd client && npm run dev\"",
     "seed": "node server/config/seeds.js",
     "build": "cd client && npm run build",
-    "render-build": "cd client && npm i && cd ../server && npm i && cd .. && npm i && npm run build"
+    "render-build": "cd client && npm ci && cd ../server && npm ci && cd .. && npm ci && npm run build"
   },
   "keywords": [],
   "author": "",
