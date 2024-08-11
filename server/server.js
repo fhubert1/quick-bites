@@ -26,7 +26,7 @@ const startApolloServer = async () => {
     app.use(express.json());
 
     // Serve up static assets
-    app.use('/images', express.static(path.join(__dirname, '../client/images')));
+    //app.use('/images', express.static(path.join(__dirname, '../client/images')));
 
     // app.use(authMiddleware);
 
@@ -36,13 +36,13 @@ const startApolloServer = async () => {
 
     app.use(express.static('client'));
 
-    if (process.env.NODE_ENV === 'production') {
-        app.use(express.static(path.join(__dirname, '../client/dist')));
+    // if (process.env.NODE_ENV === 'production') {
+    //     app.use(express.static(path.join(__dirname, '../client/dist')));
 
-        app.get('*', (req, res) => {
-            res.sendFile(path.join(__dirname, '../client/dist/index.html'));
-        });
-    }
+    //     app.get('*', (req, res) => {
+    //         res.sendFile(path.join(__dirname, '../client/dist/index.html'));
+    //     });
+    // }
 
     db.once("open", async () => {
         console.log("Connected to MongoDB");
