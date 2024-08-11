@@ -9,6 +9,8 @@ const db = require("./config/connection");
 const seedData = require("./config/seedData");
 
 const PORT = process.env.PORT || 3002;
+const NODE_ENV = process.env.NODE_ENV || 'dev';
+
 const app = express();
 
 const server = new ApolloServer({
@@ -36,18 +38,11 @@ const startApolloServer = async () => {
 
     app.use(express.static('client'));
 
-    if (process.env.NODE_ENV === 'production') {
+    if (process.env.NODE_ENV === 'prod') {
         app.use(express.static(path.join(__dirname, '../client/dist')));
 
         app.get('*', (req, res) => {
             res.sendFile(path.join(__dirname, '../client/dist/index.html'));
-        });
-    } else {
-        // development mode, serve up dev build
-        app.use(express.static(path.join(__dirname, '../client/public')));
-
-        app.get('*', (req, res) => {
-            res.sendFile(path.join(__dirname, '../client/public/index.html'));
         });
     }
 

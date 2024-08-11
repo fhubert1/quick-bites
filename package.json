@@ -9,15 +9,12 @@
     "develop": "npm run predevelop && concurrently \"cd server && npm run watch\" \"cd client && npm run dev\"",
     "seed": "node server/config/seeds.js",
     "build": "cd client && npm run build",
-    "render-build": "npm i && cross-env NODE_ENV=production cd client && npm ci && cd ../server && npm ci && cd .. && npm ci && npm run build"
+    "render-build": "cd client && npm ci && cd ../server && npm ci && cd .. && npm ci && npm run build"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "concurrently": "^5.1.0"
-  },
-  "dependencies": {
-    "cross-env": "^7.0.3"
   }
 }
