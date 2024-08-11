@@ -39,7 +39,7 @@ const startApolloServer = async () => {
 
     app.use(express.static('client'));
 
-    if (NODE_ENV === 'prod') {
+    if (NODE_ENV === 'production') {
         
         app.use(express.static(path.join(__dirname, '../client/dist')));
 
