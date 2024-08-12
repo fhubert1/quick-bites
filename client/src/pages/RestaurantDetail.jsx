@@ -1,6 +1,6 @@
 import React, { useState, useEffect} from 'react';
 import { useLocation, useParams } from 'react-router-dom';
-import '../../public/assets/styles/RestaurantDetail.css';
+import '../assets/styles/RestaurantDetail.css';
 import { getRandomMenu, menu } from '../../utils/menuItems.js';
 import { useStoreContext } from '../../utils/GlobalState.jsx';
 import { REMOVE_FROM_CART, ADD_TO_CART } from '../../utils/actions.js';
