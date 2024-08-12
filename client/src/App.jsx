@@ -46,8 +46,8 @@ function App() {
       <ApolloProvider client={client}>
         <div className={styles.App}>
           <StoreProvider>
-            <Navbar setShowLogin={setShowLogin} toggleCart={toggleCart} />
-            {cartOpen && <Cart />}
+            <Navbar setShowLogin={setShowLogin} />
+            <Cart/>
             <Outlet />
           </StoreProvider>
         </div>
