@@ -9,8 +9,8 @@ const db = require("./config/connection");
 const seedData = require("./config/seedData");
 
 const PORT = process.env.PORT || 3002;
-const NODE_ENV = process.env.NODE_ENV || 'dev';
-console.log("node env: " + NODE_ENV)
+// const NODE_ENV = process.env.NODE_ENV || 'dev';
+// console.log("node env: " + NODE_ENV)
 
 const app = express();
 
