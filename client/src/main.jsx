@@ -11,15 +11,15 @@ import {
   createHttpLink,
 } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
-import Menu from "/pages/Menu";
-import Contact from "/pages/Contact";
+import Menu from "./pages/Menu";
+import Contact from "./pages/Contact";
 // import Signup from "./pages/Signup";
 // import Login from "./pages/Login";
-import Home from "/pages/Home";
-import NotFound from "/pages/NotFound.jsx";
-import RestaurantDetail from "/pages/RestaurantDetail.jsx";
-import Cart from "/components/Cart/Cart.jsx";
-import Success from "/pages/Success.jsx";
+import Home from "./pages/Home";
+import NotFound from "./pages/NotFound.jsx";
+import RestaurantDetail from "./pages/RestaurantDetail.jsx";
+import Cart from "./components/Cart/Cart.jsx";
+import Success from "./pages/Success.jsx";
 
 // Apollo Client setup
 const httpLink = createHttpLink({
