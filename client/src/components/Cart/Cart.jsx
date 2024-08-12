@@ -11,7 +11,7 @@ import './style.css';
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
 
-const Cart = () => {
+const Cart = ({ toggleCart }) => {
   const [state, dispatch] = useStoreContext();
   const [getCheckout, { data }] = useLazyQuery(QUERY_CHECKOUT);
 
@@ -19,7 +19,6 @@ const Cart = () => {
     if (data) {
       console.log('Checkout session data received:', data);
       stripePromise.then((res) => {
-        console.log('Checkout session data received:', data);
         res.redirectToCheckout({ sessionId: data.checkout.session });
       });
     }
@@ -28,7 +27,6 @@ const Cart = () => {
   useEffect(() => {
     async function getCart() {
       const cart = await idbPromise('cart', 'get');
-      console.log('Loaded cart from IndexedDB:', cart);
       dispatch({ type: ADD_MULTIPLE_TO_CART, dishes: [...cart] });
     }
 
@@ -36,10 +34,6 @@ const Cart = () => {
       getCart();
     }
   }, [state.cart.length, dispatch]);
-
-  function toggleCart() {
-    dispatch({ type: TOGGLE_CART });
-  }
 
   function calculateTotal() {
     let sum = 0;
@@ -51,17 +45,12 @@ const Cart = () => {
 
   function submitCheckout() {
     console.log('Submitting checkout with products:', JSON.stringify(state.cart, null, 2));
-    // Transform the cart data to match the expected input format
-  const products = state.cart.map(item => ({
-    name: item.name, 
-    quantity: item.purchaseQuantity, 
-    price: item.price, 
-  }));
-
-  console.log('Formatted checkout products:', JSON.stringify(products, null, 2));
-    getCheckout({
-      variables: { dish: products},
-    });
+    const products = state.cart.map(item => ({
+      name: item.name, 
+      quantity: item.purchaseQuantity, 
+      price: item.price, 
+    }));
+    getCheckout({ variables: { dish: products } });
   }
 
   if (!state.cartOpen) {
@@ -94,3 +83,4 @@ const Cart = () => {
 };
 
 export default Cart;
+

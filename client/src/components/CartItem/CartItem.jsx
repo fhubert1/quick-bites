@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types'; 
 import { useStoreContext } from '../../../utils/GlobalState';
 import { REMOVE_FROM_CART, UPDATE_CART_QUANTITY } from '../../../utils/actions';
 import { idbPromise } from '../../../utils/helper';
@@ -58,6 +59,15 @@ const CartItem = ({ dish }) => {
       </div>
     </div>
   );
+};
+// PropTypes for CartItem component
+CartItem.propTypes = {
+  dish: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    price: PropTypes.number.isRequired,
+    purchaseQuantity: PropTypes.number.isRequired
+  }).isRequired
 };
 
 export default CartItem;

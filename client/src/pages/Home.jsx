@@ -1,5 +1,5 @@
 import React from 'react';
-import '../assets/styles/Home.css';
+import '../../public/assets/styles/Home.css';
 import SearchRestaurants from '../components/Search/Search'; 
 
 const Home = () => (

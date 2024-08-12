@@ -20,6 +20,7 @@ export const searchYelpRestaurants = async (query, location) => {
     return response.data;
   } catch (error) {
     console.error('Error searching Yelp:', error);
+    // Handle offline scenarios or network issues
     throw error;
   }
 };

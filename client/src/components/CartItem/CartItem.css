@@ -1,40 +1,68 @@
 /* Style for the cart item container */
 .flex-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 10px;
-    border-bottom: 1px solid #ddd;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+/* Style for the item details */
+.flex-row div {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Style for quantity input */
+input[type="number"] {
+  width: 50px;
+  margin-left: 5px;
+  text-align: center;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 2px 4px;
+}
+
+/* General styling for the cart popup */
+.cart-popup {
+  position: fixed; /* Position it relative to the viewport */
+  top: 0;
+  right: 0;
+  width: 300px; 
+  height: 100%;
+  background-color: white; 
+  box-shadow: -4px 0 10px rgba(0, 0, 0, 0.2); 
+  z-index: 1000; 
+  overflow-y: auto; 
+  transition: transform 0.3s ease; 
+  transform: translateX(${props => props.cartOpen ? '0' : '100%'});
   }
-  
-  
-  
-  /* Style for the item details */
-  .flex-row div {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  /* Style for quantity input */
-  input[type="number"] {
-    width: 50px;
-    margin-left: 5px;
-    text-align: center;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    padding: 2px 4px;
-  }
-  
-  /* Style for remove item icon */
-  .remove-item {
-    cursor: pointer;
-    font-size: 1.2rem;
-    color: #ff4d4d; /* Red color for delete icon */
-    margin-left: 10px;
-    transition: color 0.3s ease;
-  }
-  
-  .remove-item:hover {
-    color: #ff1a1a; /* Darker red on hover */
-  }
-  
+
+/* Class to apply when the cart is open */
+.cart-popup.open {
+  transform: translateX(0); /* Slide in */
+  opacity: 1; /* Make visible */
+}
+
+/* Styling for close button */
+.cart-popup .close {
+  cursor: pointer;
+  font-size: 1.5rem;
+  color: red;
+  text-align: right;
+}
+
+/* Additional styling for cart items */
+.cart-popup .cart-items {
+  margin-top: 1rem;
+}
+
+.cart-popup .cart-items .item {
+  border-bottom: 1px solid #ddd;
+  padding: 0.5rem 0;
+}
+
+/* Style for remove item icon */
+.remove-item {
+  cursor
+}

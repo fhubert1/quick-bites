@@ -34,7 +34,7 @@ const client = new ApolloClient({
 
 function App() {
   const [showLogin, setShowLogin] = useState(false);
-  const [cartOpen, setCartOpen] = useState(false);
+  const [cartOpen, setCartOpen] = useState(true);
 
   const toggleCart = () => {
     setCartOpen(!cartOpen);
@@ -47,7 +47,7 @@ function App() {
         <div className={styles.App}>
           <StoreProvider>
             <Navbar setShowLogin={setShowLogin} toggleCart={toggleCart} />
-            {cartOpen && <Cart />}
+            {cartOpen && <Cart toggleCart={toggleCart} />}
             <Outlet />
           </StoreProvider>
         </div>
@@ -57,3 +57,4 @@ function App() {
 }
 
 export default App;
+

@@ -30,6 +30,8 @@ const startApolloServer = async () => {
 
     // Serve up static assets
     app.use('/images', express.static(path.join(__dirname, '../client/src/assets/images')));
+    app.use(express.static(path.join(__dirname, '../client/src/pages/Menu.jsx')));
+
 
     // app.use(authMiddleware);
 
