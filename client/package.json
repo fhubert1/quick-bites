@@ -1,40 +1,40 @@
 {
-  "name": "quick-bites",
-  "private": true,
-  "version": "0.0.0",
-  "type": "module",
-  "scripts": {
-    "watch": "nodemon index.js",
-    "dev": "vite",
-    "build": "npm run prebuild && vite build",
-    "prebuild": "npm install",
-    "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview",
-    "test": "vitest"
-  },
-  "dependencies": {
-    "@apollo/client": "^3.11.1",
-    "@fontsource/bungee-shade": "^5.0.21",
-    "@stripe/react-stripe-js": "^2.7.3",
-    "@stripe/stripe-js": "^4.1.0",
-    "axios": "^1.7.3",
-    "graphql": "^16.9.0",
-    "jwt-decode": "^4.0.0",
-    "react": "^18.3.1",
-    "react-anchor-link-smooth-scroll": "^1.0.12",
-    "react-dom": "^18.3.1",
-    "react-router-dom": "^6.25.1",
-    "stripe": "^16.6.0",
-    "vitest": "^2.0.4",
-    "vite": "^5.3.1"
-  },
-  "devDependencies": {
-    "@types/react": "^18.3.3",
-    "@types/react-dom": "^18.3.0",
-    "@vitejs/plugin-react": "^4.3.1",
-    "eslint": "^8.57.0",
-    "eslint-plugin-react": "^7.34.2",
-    "eslint-plugin-react-hooks": "^4.6.2",
-    "eslint-plugin-react-refresh": "^0.4.7"
-  }
+    "name": "quick-bites",
+    "private": true,
+    "version": "0.0.0",
+    "type": "module",
+    "scripts": {
+        "watch": "nodemon index.js",
+        "dev": "vite",
+        "build": "npm run prebuild && vite build",
+        "prebuild": "npm install",
+        "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
+        "preview": "vite preview",
+        "test": "vitest"
+    },
+    "dependencies": {
+        "@apollo/client": "^3.11.1",
+        "@fontsource/bungee-shade": "^5.0.21",
+        "@stripe/react-stripe-js": "^2.7.3",
+        "@stripe/stripe-js": "^4.1.0",
+        "axios": "^1.7.3",
+        "graphql": "^16.9.0",
+        "jwt-decode": "^4.0.0",
+        "react": "^18.3.1",
+        "react-anchor-link-smooth-scroll": "^1.0.12",
+        "react-dom": "^18.3.1",
+        "react-router-dom": "^6.25.1",
+        "stripe": "^16.6.0",
+        "vitest": "^2.0.4"
+    },
+    "devDependencies": {
+        "@types/react": "^18.3.3",
+        "@types/react-dom": "^18.3.0",
+        "@vitejs/plugin-react": "^4.3.1",
+        "eslint": "^8.57.0",
+        "eslint-plugin-react": "^7.34.2",
+        "eslint-plugin-react-hooks": "^4.6.2",
+        "eslint-plugin-react-refresh": "^0.4.7",
+        "vite": "^5.4.0"
+    }
 }
