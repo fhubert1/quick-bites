@@ -40,7 +40,7 @@ const RestaurantDetail = () => {
     
       dispatch({
         type: ADD_TO_CART,
-        dish: { ...dish, id: `${restaurant.name}-${dish.name}` }
+        dish: { ...dish, purchaseQuantity: 1 }
       });
     } catch (error) {
       console.error("Error adding item to cart:", error);
@@ -50,7 +50,7 @@ const RestaurantDetail = () => {
   const removeFromCart = (dish) => {
     dispatch({
       type: REMOVE_FROM_CART,
-      _id: `${restaurant.name}-${dish.name}`
+      id: `${restaurant.name}-${dish.name}`
     });
   };
 

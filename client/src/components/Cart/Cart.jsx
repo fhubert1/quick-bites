@@ -34,10 +34,12 @@ const Cart = ({ toggleCart }) => {
       getCart();
     }
   }, [state.cart.length, dispatch]);
+console.log("cart5:", state.cart)
 
   function calculateTotal() {
     let sum = 0;
     state.cart.forEach((dish) => {
+      console.log(`Dish: ${dish.name}, Price: ${dish.price}, Quantity: ${dish.purchaseQuantity}`);
       sum += dish.price * dish.purchaseQuantity;
     });
     return sum.toFixed(2);
