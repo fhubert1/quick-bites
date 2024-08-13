@@ -66,3 +66,8 @@ This project is licensed under the MIT License.
 
 ## Deployed Link
 Link to the deployed application: 
+
+![alt text](image-4.png)
+![alt text](image-7.png)
+![alt text](image-5.png)
+![alt text](image-6.png)
