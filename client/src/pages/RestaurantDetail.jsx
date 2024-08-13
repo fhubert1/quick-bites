@@ -27,6 +27,7 @@ const RestaurantDetail = () => {
 
   const handleAddToCart = async (dish) => {
     try {
+<<<<<<< HEAD
       if (restaurant.id) {
         await addDish({
           variables: { 
@@ -44,6 +45,21 @@ const RestaurantDetail = () => {
 
         idbPromise('cart', 'put', { ...dish, purchaseQuantity: 1, id: `${restaurant.name}-${dish.name}` });
       }
+=======
+      await addDish({
+        variables: { 
+          name: dish.name, 
+          description: dish.description, 
+          price: dish.price, 
+          restaurantId: restaurant.id, //not sure this is right
+        }
+      });
+    
+      dispatch({
+        type: ADD_TO_CART,
+        dish: { ...dish, purchaseQuantity: 1 }
+      });
+>>>>>>> 0fc974ffcebf2824ec7bc226ee6bf960f3fcfb9a
     } catch (error) {
       console.error("Error adding item to cart:", error);
     }
