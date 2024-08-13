@@ -35,8 +35,7 @@ input[type="number"] {
   z-index: 1000; 
   overflow-y: auto; 
   transition: transform 0.3s ease; 
-  transform: translateX(${props => props.cartOpen ? '0' : '100%'});
-  }
+}
 
 /* Class to apply when the cart is open */
 .cart-popup.open {
@@ -64,5 +63,6 @@ input[type="number"] {
 
 /* Style for remove item icon */
 .remove-item {
-  cursor
+  cursor: pointer; /* Ensures the button looks clickable */
+  pointer-events: auto; /* Allows clicks on the button */
 }

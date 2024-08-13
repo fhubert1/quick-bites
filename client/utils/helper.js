@@ -58,7 +58,7 @@ export function pluralize(name, count) {
             };
             break;
           case 'delete':
-            store.delete(object._id);
+            store.delete(object.id);
             resolve(object);
             break;
           default:

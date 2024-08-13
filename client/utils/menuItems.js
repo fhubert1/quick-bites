@@ -42,6 +42,6 @@ const menu = [
         }
     }
     return randomItems; 
-  };
+  }
 
   export { getRandomMenu, menu };

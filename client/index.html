@@ -1,43 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Quick Bites</title>
-    <!-- Updated path to favicon -->
-    <link rel="icon" type="image/x-icon" href="images/favicon.ico">
-    <!-- Updated path to manifest file -->
-    <link rel="manifest" href="/src/manifest.json">
-  </head>
-  <body>
-    <div class="container">
-      <h2>
-        Quick Bites
-        <!-- Updated path to image -->
-        <img
-          src="/assets/icon/plate.png"
-          style="width:9%; cursor: pointer;"
-          alt="Plate Icon"
-        />
-      </h2>
-    </div>
-    <div id="root"></div>
-    <!-- Updated script path for main application -->
-    <script type="module" src="/src/main.jsx"></script>
-    <script>
-      if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-          // Updated path to service worker script
-          navigator.serviceWorker.register('/sw.js')
-            .then((registration) => {
-              console.log('ServiceWorker registration successful with scope: ', registration.scope);
-            })
-            .catch((error) => {
-              console.log('ServiceWorker registration failed: ', error);
-            });
-        });
-      }
-    </script>
-  </body>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quick Bites</title>
+  <link rel="icon" type="image/x-icon" href="./src/images/favicon.ico">
+  <link rel="manifest" href="./src/manifest.json">
+</head>
+<body>
+  <div class="container">
+    <h2>
+      Quick Bites
+      <img src="./src/assets/icon/plate.png" style="width:9%; cursor: pointer;" />
+    </h2>
+  </div>
+  
+  <div id="root"></div>
+  <script type="module" src="/src/main.jsx"></script>
+  
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js')
+          .then((registration) => {
+            console.log('ServiceWorker registration successful with scope: ', registration.scope);
+          })
+          .catch((error) => {
+            console.log('ServiceWorker registration failed: ', error);
+          });
+      });
+    }
+  </script>
+</body>
 </html>
-

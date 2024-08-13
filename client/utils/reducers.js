@@ -21,7 +21,7 @@ export const reducer = (state, action) => {
                     cartOpen: true,
                     cart: state.cart.map(dish => {
                         if (action.id === dish.id) {
-                            dish.purchaseQuantity = action.purchaseQuatity
+                            dish.purchaseQuantity = action.purchaseQuantity
                         }
                         return dish
                     })
@@ -31,12 +31,12 @@ export const reducer = (state, action) => {
             let newState = state.cart.filter(dish => {
                 return dish.id !== action.id
             });
-
             return {
                 ...state,
                 cartOpen: newState.length > 0,
                 cart: newState
             }
+        
 
         case CLEAR_CART:
             return {
@@ -53,5 +53,5 @@ export const reducer = (state, action) => {
 
         default:
             return state;
-};
+}
 };

@@ -1,9 +1,8 @@
 import React from 'react';
-import PropTypes from 'prop-types'; 
 import { useStoreContext } from '../../../utils/GlobalState';
 import { REMOVE_FROM_CART, UPDATE_CART_QUANTITY } from '../../../utils/actions';
 import { idbPromise } from '../../../utils/helper';
-import './CartItem.css'; 
+import './CartItem.css';
 
 const CartItem = ({ dish }) => {
   const [, dispatch] = useStoreContext();
@@ -17,34 +16,30 @@ const CartItem = ({ dish }) => {
   };
 
   const onChange = (e) => {
-    const value = e.target.value;
-    if (value === '0') {
-      dispatch({
-        type: REMOVE_FROM_CART,
-        id: dish.id
-      });
-      idbPromise('cart', 'delete', { ...dish });
+    const value = parseInt(e.target.value, 10);
+
+    if ((value) || value <= 0) {
+      removeFromCart(dish); // Remove item if quantity is zero or invalid
     } else {
       dispatch({
         type: UPDATE_CART_QUANTITY,
         id: dish.id,
-        purchaseQuantity: parseInt(value)
+        purchaseQuantity: value
       });
-      idbPromise('cart', 'put', { ...dish, purchaseQuantity: parseInt(value) });
+      idbPromise('cart', 'put', { ...dish, purchaseQuantity: value });
     }
   };
 
   return (
     <div className="flex-row">
-      
       <div>
-        <div>{dish.name} - ${dish.price}</div>
+        <div>{dish.name} - ${dish.price.toFixed(2)}</div>
         <div>
           <span>Qty:</span>
           <input
             type="number"
             placeholder="1"
-            value={dish.purchaseQuantity}
+            value={dish.purchaseQuantity || 1} // Default to 1 if undefined
             onChange={onChange}
           />
           <span
@@ -52,6 +47,7 @@ const CartItem = ({ dish }) => {
             aria-label="remove-item"
             onClick={() => removeFromCart(dish)}
             className="remove-item"
+            style={{ cursor: 'pointer' }} // Ensure it appears clickable
           >
             🗑️
           </span>
@@ -60,14 +56,6 @@ const CartItem = ({ dish }) => {
     </div>
   );
 };
-// PropTypes for CartItem component
-CartItem.propTypes = {
-  dish: PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    price: PropTypes.number.isRequired,
-    purchaseQuantity: PropTypes.number.isRequired
-  }).isRequired
-};
 
 export default CartItem;
+

@@ -15,7 +15,6 @@
     justify-content: center;
   }
   img.menu-tab{
-  /* justify-content: center; */
   display: block;
     width: 400px;
     height: 198px;
@@ -31,7 +30,6 @@
   h2.title{
     display: contents;
     margin-top: 3%;
-    /* margin-top: 35px; */
   }
   div.cart-closed{
     display: flex;
