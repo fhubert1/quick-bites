@@ -39,7 +39,7 @@ const CartItem = ({ dish }) => {
           <input
             type="number"
             placeholder="1"
-            value={dish.purchaseQuantity || 1} // Default to 1 if undefined
+            value={dish.purchaseQuantity}
             onChange={onChange}
           />
           <span
