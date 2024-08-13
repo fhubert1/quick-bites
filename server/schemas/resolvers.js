@@ -146,6 +146,10 @@ const resolvers = {
     Mutation: {
         addUser: async (_, { name, email, userName, password, address, phone }) => {
             try {
+            // Check password length
+            if (password.length < 8) {
+                throw new Error("Password must be at least 8 characters long.");
+            }                
                 const user = new User({
                     name,
                     email,
