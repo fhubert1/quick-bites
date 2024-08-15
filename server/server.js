@@ -6,34 +6,44 @@ const { authMiddleware } = require("./utils/auth");
 const { typeDefs, resolvers } = require("./schemas");
 const db = require("./config/connection");
 const seedData = require("./config/seedData");
+
 const PORT = process.env.PORT || 3002;
 const app = express();
 const server = new ApolloServer({
   typeDefs,
   resolvers,
 });
-// app.use((req, res, next) => { console.log(`${req.method} ${req.url}`); next(); });
-// Create a new instance of an Apollo server with the GraphQL schema
+
 const startApolloServer = async () => {
   await server.start();
+
+  // Middleware
   app.use(express.urlencoded({ extended: false }));
   app.use(express.json());
-  // Serve up static assets
-  app.use("/images", express.static(path.join(__dirname, "../client/src/assets/images")));
-  // app.use(authMiddleware);
   app.use(
     "/graphql",
     expressMiddleware(server, {
       context: authMiddleware,
     })
   );
-  app.use(express.static("client"));
 
-    app.use(express.static(path.join(__dirname, "../client/dist")));
-    app.get("*", (req, res) => {
-      res.sendFile(path.join(__dirname, "../client/dist/index.html"));
-    });
-  }
+  // Serve static files from the 'client' directory
+  app.use(express.static(path.join(__dirname, 'client')));
+
+  // Serve static files from the 'restaurant' directory
+  app.use('/restaurant', express.static(path.join(__dirname, 'restaurant')));
+
+  // Route to serve application for client sw.js
+  app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'client', 'index.html'));
+  });
+
+  // Serve static files from the 'dist' folder, if it exists
+  app.use(express.static(path.join(__dirname, '../client/dist')));
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../client/dist/index.html'));
+  });
+
   db.once("open", async () => {
     console.log("Connected to MongoDB");
     await seedData();
@@ -42,5 +52,6 @@ const startApolloServer = async () => {
       console.log(`Use GraphQL at http://localhost:${PORT}/graphql`);
     });
   });
-// Call the async function to start the server
+};
+
 startApolloServer();
